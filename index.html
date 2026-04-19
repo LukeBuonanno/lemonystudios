@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>No-IP Test</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            margin-top: 50px;
+            background-color: #111;
+            color: #0f0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>✅ SUCCESS</h1>
+    <p>If you see this, your No-IP domain is working.</p>
+
+    <p id="time"></p>
+
+    <script>
+        document.getElementById("time").innerText =
+            "Loaded at: " + new Date().toString();
+    </script>
+
+</body>
+</html>
