@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +7,7 @@
 <title>Lemony Studios</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Workbench&family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=VT323&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Departure+Mono&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; }
@@ -21,7 +22,7 @@ html { scroll-behavior:smooth; }
   --warm:         #bfb89e;
   --hi:           #e6ddc0;
   --amber:        #f5a623;
-  --display:      'Workbench', monospace;
+  --display:      'Departure Mono', monospace;
   --body:         'Courier Prime', 'Courier New', monospace;
   --glass-bg:     rgba(7,7,10,0.72);
   --glass-border: rgba(245,166,35,0.25);
@@ -92,9 +93,7 @@ body::after {
   position: absolute;
   inset: 0;
   z-index: 0;
-  display: block;
-  align-items: center;
-  justify-content: center;
+  display: block;   /* remove flex behavior */
   overflow: hidden;
 }
 
@@ -106,16 +105,13 @@ body::after {
     0 0 5px rgba(245,166,35,0.8),
     0 0 14px rgba(245,166,35,0.4),
     0 0 30px rgba(255,140,0,0.2);
+
   white-space: pre;
   user-select: none;
-  -webkit-mask-image: radial-gradient(ellipse 88% 82% at 50% 50%, #000 38%, transparent 100%);
-  mask-image: radial-gradient(ellipse 88% 82% at 50% 50%, #000 38%, transparent 100%);
-  width: fit-content;
+
   display: block;
-  background: transparent;
-  border: none;
-  max-width: fit-content;
-  overflow: hidden;
+  width: 100%;        /* IMPORTANT */
+  margin: 0;          /* remove centering */
 }
 
 /* HERO CONTENT */
@@ -477,9 +473,9 @@ footer a:hover { color:var(--ink-dim); }
 
   function init() {
     charRatio = measureRatio(20);
-
-var W = window.innerWidth;
-var H = window.innerHeight;
+var rect = wrapper.getBoundingClientRect();
+var W = rect.width;
+var H = rect.height;
 
 /* pick a stable column count (tune this feel) */
 cols = Math.floor(W / 7); // 7 = target pixel density per char
@@ -635,9 +631,9 @@ if(document.fonts?.ready){
    TEXT WAVE SCRAMBLE
 ════════════════════════════════════════════════════════════ */
 (function(){
-  const WAVE_SPEED=670,WAVE_DUR=2050,WAVE_BAND=268,WAVE_TRAIL=2.2,
-        WAVE_SHRINK=2.5,WAVE_NOISE=4,WAVE_DENSITY=1.25,
-        WAVE_MIN_DIST=69,CHAR_SPEED=76;
+  const WAVE_SPEED=500,WAVE_DUR=1000,WAVE_BAND=268,WAVE_TRAIL=2.2,
+        WAVE_SHRINK=2.5,WAVE_NOISE=4,WAVE_DENSITY=1.2,
+        WAVE_MIN_DIST=140,CHAR_SPEED=70;
   const PALETTE='.,\u00b7-\u2500~+:;=*\u03c0\u2510\u250c\u2518\u2554\u255d\u2551\u255a!?1742&35$690#@8$\u2580\u2584\u25a0\u2591\u2592\u2593';
   const TARGETS=['.hero-name','.hero-desc','.hero-meta','.sec-label','.proj-name','.proj-liner','.proj-desc','.proj-tag','.proj-gh','.about-bio','.skill-group-label','.chip','.contact-hed','.cg-label','.cg-val','footer'].join(',');
   function hash(x,y,z){const n=Math.sin(x*127.1+y*311.7+z*74.7)*43758.5453;return n-Math.floor(n);}
@@ -774,5 +770,45 @@ document.querySelectorAll('.reveal').forEach(el=>{
   new IntersectionObserver(([e])=>{if(e.isIntersecting)el.classList.add('in');},{threshold:.07}).observe(el);
 });
 </script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
 </body>
 </html>
+
+
