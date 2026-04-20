@@ -92,7 +92,7 @@ body::after {
   position: absolute;
   inset: 0;
   z-index: 0;
-  display: flex;
+  display: block;
   align-items: center;
   justify-content: center;
   overflow: hidden;
@@ -110,10 +110,11 @@ body::after {
   user-select: none;
   -webkit-mask-image: radial-gradient(ellipse 88% 82% at 50% 50%, #000 38%, transparent 100%);
   mask-image: radial-gradient(ellipse 88% 82% at 50% 50%, #000 38%, transparent 100%);
+  width: fit-content;
   display: block;
   background: transparent;
   border: none;
-  max-width: 100%;
+  max-width: fit-content;
   overflow: hidden;
 }
 
@@ -348,8 +349,8 @@ footer a:hover { color:var(--ink-dim); }
     <div style="display:none">
       <input type="range" id="width" value="120" max="200" min="30"/>
       <input type="range" id="height" value="25" max="50" min="10"/>
-      <input type="range" id="stars" value="40" max="150" min="10"/>
-      <input type="range" id="trails" value="20" max="60" min="5"/>
+      <input type="range" id="stars" value="100" max="150" min="10"/>
+      <input type="range" id="trails" value="10" max="60" min="5"/>
     </div>
     <div id="hero-content">
       <h1 class="hero-name">Lemony<span class="dim">Studios</span></h1>
@@ -477,23 +478,25 @@ footer a:hover { color:var(--ink-dim); }
   function init() {
     charRatio = measureRatio(20);
 
-    var W = wrapper.offsetWidth  || window.innerWidth;
-    var H = wrapper.offsetHeight || window.innerHeight;
+var W = window.innerWidth;
+var H = window.innerHeight;
 
-    /* Target ~100-160 cols depending on width; clamp font-size to 8-20px */
-    var targetCols = Math.round(W / 8); // approx 8px per char target
-    var fs = W / (targetCols * charRatio);
-    fs = Math.max(8, Math.min(20, fs));
+/* pick a stable column count (tune this feel) */
+cols = Math.floor(W / 7); // 7 = target pixel density per char
 
-    /* Recompute final cols/rows from clamped fs */
-    cols = Math.floor(W / (fs * charRatio));
-    rows = Math.floor(H / fs); /* line-height:1 so row height == font-size */
+/* solve exact font size so it fits perfectly */
+var fs = W / (cols * charRatio);
 
-    pre.style.fontSize   = fs + 'px';
-    pre.style.lineHeight = '1';
+/* clamp for sanity */
+fs = Math.max(8, Math.min(22, fs));
 
-    stars  = Math.round(cols * 0.35);
-    trails = Math.round(cols * 0.18);
+rows = Math.floor(H / fs);
+
+pre.style.fontSize = fs + "px";
+pre.style.lineHeight = "1";
+
+    stars  = Math.round(cols * 0.5);
+    trails = Math.round(cols * 0.05);
 
     buildField();
     render();
@@ -547,11 +550,23 @@ footer a:hover { color:var(--ink-dim); }
   var rt;
   window.addEventListener('resize',function(){ clearTimeout(rt); rt=setTimeout(init,200); });
 
-  if(document.fonts&&document.fonts.ready){
-    Promise.race([document.fonts.ready,new Promise(function(r){setTimeout(r,1500);})]).then(init);
-  } else {
-    window.addEventListener('load',init);
-  }
+  function waitFrames(n, cb){
+  if(n<=0) return cb();
+  requestAnimationFrame(()=>waitFrames(n-1,cb));
+}
+
+function boot(){
+  Promise.resolve(document.fonts?.ready)
+    .then(()=>new Promise(r=>requestAnimationFrame(r))) // paint
+    .then(()=>new Promise(r=>requestAnimationFrame(r))) // layout settle
+    .then(()=>waitFrames(2, init)); // extra safety frames
+}
+
+if(document.fonts?.ready){
+  boot();
+} else {
+  window.addEventListener('load', boot);
+}
 })();
 
 
