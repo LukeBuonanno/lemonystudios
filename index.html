@@ -6,24 +6,24 @@
 <title>Lemony Studios</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=JetBrains+Mono:wght@300;400&family=VT323&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Workbench&family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=VT323&display=swap" rel="stylesheet" />
 <style>
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; }
 
 :root {
-  --bg:        #07070a;
-  --surface:   #0d0d12;
-  --line:      #1e1e2a;
-  --ink:       #d4d0c2;
-  --ink-dim:   #64625c;
-  --ink-faint: #1e1e18;
-  --warm:      #bfb89e;
-  --hi:        #e6ddc0;
-  --amber:     #f5a623;
-  --serif:     'Newsreader', Georgia, serif;
-  --mono:      'JetBrains Mono', 'Courier New', monospace;
-  --glass-bg:  rgba(7,7,10,0.72);
+  --bg:           #07070a;
+  --surface:      #0d0d12;
+  --line:         #1e1e2a;
+  --ink:          #d4d0c2;
+  --ink-dim:      #64625c;
+  --ink-faint:    #1e1e18;
+  --warm:         #bfb89e;
+  --hi:           #e6ddc0;
+  --amber:        #f5a623;
+  --display:      'Workbench', monospace;
+  --body:         'Courier Prime', 'Courier New', monospace;
+  --glass-bg:     rgba(7,7,10,0.72);
   --glass-border: rgba(245,166,35,0.25);
   --panel-radius: 18px;
 }
@@ -31,9 +31,9 @@ html { scroll-behavior:smooth; }
 body {
   background: var(--bg);
   color: var(--ink);
-  font-family: var(--mono);
-  font-size: 12px;
-  font-weight: 300;
+  font-family: var(--body);
+  font-size: 13px;
+  font-weight: 400;
   line-height: 1.65;
   letter-spacing: .01em;
   cursor: none;
@@ -58,10 +58,8 @@ body::after {
 }
 
 /* ══════════════════════════════════════════════════
-   HERO — full-bleed galaxy with glass-panel border
+   HERO WRAPPER — amber glass-panel border
 ══════════════════════════════════════════════════ */
-
-/* Outer wrapper: provides the margin + glass-panel border, matching projects/about/contact */
 #hero-wrapper {
   margin: 16px 16px 0 16px;
   border-radius: var(--panel-radius);
@@ -70,7 +68,7 @@ body::after {
     0 0 0 1px rgba(245,166,35,0.07),
     0 -24px 64px rgba(0,0,0,0.55),
     inset 0 1px 0 rgba(245,166,35,0.10);
-  overflow: hidden; /* clips the sky canvas to the rounded border — hero content overflows via z-index, not DOM */
+  overflow: hidden;
   background: var(--glass-bg);
   backdrop-filter: blur(2px) saturate(1.1) brightness(1.5);
   -webkit-backdrop-filter: blur(2px) saturate(1.1) brightness(1.5);
@@ -86,25 +84,23 @@ body::after {
   justify-content: center;
   align-items: center;
   text-align: center;
-  /* No padding on sides — sky fills edge-to-edge; hero content has its own padding */
   padding: 48px 0;
 }
 
-/* Sky layer — fills the hero exactly, overflow clipped by wrapper */
+/* SKY — font-size set by JS so chars tile exactly wall-to-wall */
 #ascii-sky {
   position: absolute;
   inset: 0;
   z-index: 0;
-  /* No overflow:hidden here — the wrapper handles clipping */
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 #render {
   font-family: 'VT323', monospace;
-  font-size: 16px;
-  line-height: 12px;
+  line-height: 1;
   color: var(--amber);
   text-shadow:
     0 0 5px rgba(245,166,35,0.8),
@@ -112,77 +108,71 @@ body::after {
     0 0 30px rgba(255,140,0,0.2);
   white-space: pre;
   user-select: none;
-  /* Mask fades edges so the sky doesn't hard-clip against the border */
-  -webkit-mask-image: radial-gradient(ellipse 85% 80% at 50% 50%, #000 40%, transparent 100%);
-  mask-image: radial-gradient(ellipse 85% 80% at 50% 50%, #000 40%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 88% 82% at 50% 50%, #000 38%, transparent 100%);
+  mask-image: radial-gradient(ellipse 88% 82% at 50% 50%, #000 38%, transparent 100%);
   display: block;
-  padding: 0;
   background: transparent;
   border: none;
-  /* Prevent the pre from growing wider than its container */
   max-width: 100%;
   overflow: hidden;
 }
 
-/* Hero text — sits over the sky, never clipped */
+/* HERO CONTENT */
 #hero-content {
   position: relative;
   z-index: 2;
   padding: 0 48px;
-  /* Allow serifs / descenders to breathe without being cropped */
   overflow: visible;
   width: 100%;
-  max-width: 100%;
 }
 
 .hero-name {
-  font-family: var(--serif);
-  font-size: clamp(52px,10vw,140px);
-  font-weight: 300;
-  line-height: 1.0;           /* slightly roomier so ascenders don't clip */
-  letter-spacing: -0.01em;
+  font-family: var(--display);
+  font-size: clamp(44px, 9vw, 120px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
   color: var(--hi);
   opacity: 0;
   animation: up .9s cubic-bezier(.16,1,.3,1) .5s forwards;
-  /* Generous padding — prevents any glyph edge from touching clipping contexts */
-  padding: 0.1em 0.12em 0.15em;
+  display: inline-block;
+  padding: 0.08em 0.1em;
   overflow: visible;
-  display: inline-block;      /* so padding actually expands the box */
 }
-.hero-name em { font-style:italic;color:var(--ink-dim); }
+.hero-name .dim { color: var(--ink-dim); display: block; }
 
 .hero-foot {
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 48px;
-  padding-top:40px;
-  opacity:0;
-  animation:up .7s ease .85s forwards;
+  padding-top: 40px;
+  opacity: 0;
+  animation: up .7s ease .85s forwards;
   flex-wrap: wrap;
 }
 .hero-desc {
-  font-family:var(--serif);
-  font-size:clamp(14px,1.7vw,19px);
-  font-weight:300;
-  font-style:italic;
-  color:var(--warm);
-  line-height:1.55;
+  font-family: var(--body);
+  font-size: clamp(13px, 1.6vw, 17px);
+  font-style: italic;
+  color: var(--warm);
+  line-height: 1.6;
   text-align: center;
 }
 .hero-meta {
-  text-align:center;
-  font-size:10px;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  color:var(--ink-dim);
-  line-height:2;
+  text-align: center;
+  font-family: var(--body);
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  line-height: 2;
 }
 .hero-meta a { color:var(--ink-dim);text-decoration:none;transition:color .2s; }
 .hero-meta a:hover { color:var(--hi); }
 
 /* ══════════════════════════════════════════════════
-   MORPH STAGE — sticky
+   MORPH STAGE
 ══════════════════════════════════════════════════ */
 #morph-stage {
   position: sticky;
@@ -193,7 +183,6 @@ body::after {
   overflow: hidden;
   background: var(--bg);
 }
-
 #ascii-morph {
   position: absolute;
   inset: 0;
@@ -202,10 +191,9 @@ body::after {
   justify-content: center;
   pointer-events: none;
 }
-
 #ascii-morph pre {
-  font-family: var(--mono);
-  font-size: clamp(10px, 1.4vw, 16px);
+  font-family: var(--body);
+  font-size: clamp(10px,1.4vw,16px);
   line-height: 1.35;
   color: var(--amber);
   white-space: pre;
@@ -236,7 +224,6 @@ body::after {
   gap: 16px;
 }
 
-/* Glass panels */
 .glass-panel {
   position: relative;
   background: var(--glass-bg);
@@ -251,28 +238,33 @@ body::after {
   overflow: hidden;
 }
 
-/* SECTIONS */
-.sec { padding:80px 36px;border-bottom: none; }
+.sec { padding:80px 36px; }
 .sec-label {
-  font-size:10px;letter-spacing:.25em;text-transform:uppercase;
-  color:var(--ink-dim);margin-bottom:52px;
-  display:flex;align-items:center;gap:14px;
+  font-family: var(--body);
+  font-size: 10px;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin-bottom: 52px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 .sec-label::after { content:'';flex:1;height:1px;background:var(--line); }
 
 /* PROJECTS */
 .proj-list { border-top:1px solid var(--line); }
 .proj-row { border-bottom:1px solid var(--line);display:grid;grid-template-columns:48px 1fr;position:relative;overflow:hidden;transition:background .25s; }
-.proj-row:last-child { border-bottom: none; }
+.proj-row:last-child { border-bottom:none; }
 .proj-row:hover { background:rgba(245,166,35,0.04); }
-.proj-num { font-size:10px;color:var(--ink-faint);letter-spacing:.1em;border-right:1px solid var(--line);display:flex;align-items:flex-start;justify-content:center;padding-top:30px; }
+.proj-num { font-family:var(--body);font-size:10px;color:var(--ink-faint);letter-spacing:.1em;border-right:1px solid var(--line);display:flex;align-items:flex-start;justify-content:center;padding-top:30px; }
 .proj-inner { display:grid;grid-template-rows:auto 0fr;transition:grid-template-rows .48s cubic-bezier(.4,0,.2,1); }
 .proj-row.open .proj-inner { grid-template-rows:auto 1fr; }
 .proj-bar { padding:26px 28px;display:flex;align-items:baseline;justify-content:space-between;gap:16px;user-select:none; }
-.proj-name { font-family:var(--serif);font-size:clamp(22px,4vw,48px);font-weight:300;letter-spacing:-.015em;line-height:1;color:var(--hi);transition:color .2s; }
+.proj-name { font-family:var(--display);font-size:clamp(20px,3.5vw,42px);font-weight:400;letter-spacing:.02em;line-height:1.1;color:var(--hi);transition:color .2s; }
 .proj-row:hover .proj-name { color:#fff; }
 .proj-right-bar { display:flex;align-items:center;gap:16px;flex-shrink:0; }
-.proj-liner { font-family:var(--serif);font-size:12px;font-style:italic;color:var(--ink-dim);max-width:260px;text-align:right; }
+.proj-liner { font-family:var(--body);font-size:12px;font-style:italic;color:var(--ink-dim);max-width:260px;text-align:right; }
 .proj-chevron { width:14px;height:14px;flex-shrink:0;color:var(--ink-dim);transition:transform .38s cubic-bezier(.4,0,.2,1),color .2s; }
 .proj-row.open .proj-chevron { transform:rotate(180deg);color:var(--amber); }
 .proj-panel { overflow:hidden; }
@@ -281,35 +273,35 @@ body::after {
 .proj-img-wrap img { width:100%;height:100%;object-fit:cover;opacity:.7;filter:grayscale(25%);transition:opacity .4s,filter .4s,transform .55s; }
 .proj-row:hover .proj-img-wrap img { opacity:1;filter:none;transform:scale(1.03); }
 .proj-img-placeholder { width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);border:1px dashed var(--ink-faint); }
-.proj-desc { font-family:var(--serif);font-size:13px;font-weight:300;line-height:1.75;color:var(--warm);margin-bottom:20px; }
+.proj-desc { font-family:var(--body);font-size:13px;line-height:1.75;color:var(--warm);margin-bottom:20px; }
 .proj-tags { display:flex;flex-wrap:wrap;gap:5px;margin-bottom:24px; }
-.proj-tag { font-size:9px;letter-spacing:.18em;text-transform:uppercase;border:1px solid var(--line);color:var(--ink-dim);padding:3px 8px; }
-.proj-gh { display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--hi);text-decoration:none;border-bottom:1px solid var(--ink-faint);padding-bottom:2px;transition:gap .2s,border-color .2s; }
+.proj-tag { font-family:var(--body);font-size:9px;letter-spacing:.18em;text-transform:uppercase;border:1px solid var(--line);color:var(--ink-dim);padding:3px 8px; }
+.proj-gh { display:inline-flex;align-items:center;gap:8px;font-family:var(--body);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--hi);text-decoration:none;border-bottom:1px solid var(--ink-faint);padding-bottom:2px;transition:gap .2s,border-color .2s; }
 .proj-gh:hover { gap:14px;border-color:var(--hi); }
 .proj-gh svg { width:11px;height:11px; }
 
 /* ABOUT */
 .about-grid { display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start; }
-.about-bio { font-family:var(--serif);font-size:clamp(15px,2vw,21px);font-weight:300;line-height:1.6;color:var(--warm); }
+.about-bio { font-family:var(--body);font-size:clamp(14px,1.8vw,19px);line-height:1.65;color:var(--warm); }
 .about-bio em { color:var(--hi);font-style:normal; }
 .about-bio p+p { margin-top:1.2em; }
 .skill-group { margin-bottom:30px; }
-.skill-group-label { display:block;font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:10px; }
+.skill-group-label { display:block;font-family:var(--body);font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:10px; }
 .chips { display:flex;flex-wrap:wrap;gap:6px; }
-.chip { font-size:10px;letter-spacing:.1em;border:1px solid var(--line);color:var(--ink-dim);padding:4px 10px;transition:border-color .2s,color .2s; }
+.chip { font-family:var(--body);font-size:10px;letter-spacing:.08em;border:1px solid var(--line);color:var(--ink-dim);padding:4px 10px;transition:border-color .2s,color .2s; }
 .chip:hover { border-color:var(--amber);color:var(--amber); }
 
 /* CONTACT */
-.contact-hed { font-family:var(--serif);font-size:clamp(40px,9vw,110px);font-weight:300;font-style:italic;line-height:.9;letter-spacing:-.02em;color:var(--hi);margin-bottom:64px; }
-.contact-hed a { color:inherit;text-decoration:none;border-bottom:1px solid var(--ink-faint);padding-bottom:6px;transition:border-color .3s; }
+.contact-hed { font-family:var(--display);font-size:clamp(36px,8vw,100px);font-weight:400;line-height:1.0;letter-spacing:.02em;color:var(--hi);margin-bottom:64px; }
+.contact-hed a { color:inherit;text-decoration:none;border-bottom:2px solid var(--ink-faint);padding-bottom:6px;transition:border-color .3s; }
 .contact-hed a:hover { border-color:var(--hi); }
 .contact-grid { display:grid;grid-template-columns:repeat(5,1fr);gap:28px;border-top:1px solid var(--line);padding-top:48px; }
-.cg-label { display:block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:12px; }
-.cg-val { font-size:17px;color:var(--warm);text-decoration:none;transition:color .2s;line-height:1.55;font-family:var(--serif);font-weight:300; }
+.cg-label { display:block;font-family:var(--body);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:12px; }
+.cg-val { font-family:var(--body);font-size:16px;color:var(--warm);text-decoration:none;transition:color .2s;line-height:1.55; }
 .cg-val:hover { color:var(--hi); }
 
 /* FOOTER */
-footer { padding:24px 36px;display:flex;justify-content:space-between;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-faint); }
+footer { padding:24px 36px;display:flex;justify-content:space-between;font-family:var(--body);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-faint); }
 footer a { color:inherit;text-decoration:none;transition:color .2s; }
 footer a:hover { color:var(--ink-dim); }
 
@@ -323,23 +315,23 @@ footer a:hover { color:var(--ink-dim); }
 /* RESPONSIVE */
 @media(max-width:900px){ .contact-grid{ grid-template-columns:repeat(3,1fr); } }
 @media(max-width:700px){
-  #hero-wrapper { margin: 10px 10px 0 10px; }
+  #hero-wrapper { margin:10px 10px 0 10px; }
   .sec{ padding-left:20px;padding-right:20px; }
   .hero-foot{ flex-direction:column;gap:20px;align-items:center; }
   .about-grid{ grid-template-columns:1fr;gap:40px; }
   .contact-grid{ grid-template-columns:1fr 1fr;gap:20px; }
   .proj-panel-inner{ grid-template-columns:1fr; }
   .proj-liner{ display:none; }
-  .cg-val{ font-size:14px; }
+  .cg-val{ font-size:13px; }
 }
 @media(max-width:480px){
-  #hero-wrapper { margin: 8px 8px 0 8px; }
-  #hero-content { padding: 0 20px; }
+  #hero-wrapper { margin:8px 8px 0 8px; }
+  #hero-content { padding:0 18px; }
   .proj-num{ display:none; }
   .proj-row{ grid-template-columns:1fr; }
   .proj-bar{ padding:18px 16px; }
   .contact-grid{ grid-template-columns:1fr; }
-  .contact-hed{ font-size:clamp(32px,11vw,56px); }
+  .contact-hed{ font-size:clamp(28px,10vw,52px); }
 }
 
 @keyframes up { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:none;} }
@@ -350,25 +342,17 @@ footer a:hover { color:var(--ink-dim); }
 <div class="cursor" id="cur"><div class="cursor-dot"></div></div>
 <div class="follower" id="fol"><div class="follower-circle" id="fol-circle"></div></div>
 
-<!-- ══════════════════════════════════════════════════════
-     HERO — wrapped in glass-panel border (matches projects)
-══════════════════════════════════════════════════════ -->
 <div id="hero-wrapper">
   <section id="galaxy-hero">
-    <div id="ascii-sky">
-      <pre id="render"></pre>
-    </div>
-
-    <!-- Hidden sliders kept for JS compatibility -->
+    <div id="ascii-sky"><pre id="render"></pre></div>
     <div style="display:none">
-      <input type="range" id="width"  value="120" max="200" min="30"/>
-      <input type="range" id="height" value="25"  max="50"  min="10"/>
-      <input type="range" id="stars"  value="40"  max="150" min="10"/>
-      <input type="range" id="trails" value="20"  max="60"  min="5"/>
+      <input type="range" id="width" value="120" max="200" min="30"/>
+      <input type="range" id="height" value="25" max="50" min="10"/>
+      <input type="range" id="stars" value="40" max="150" min="10"/>
+      <input type="range" id="trails" value="20" max="60" min="5"/>
     </div>
-
     <div id="hero-content">
-      <h1 class="hero-name">Lemony<br><em>Studios</em></h1>
+      <h1 class="hero-name">Lemony<span class="dim">Studios</span></h1>
       <div class="hero-foot">
         <p class="hero-desc">Mechanical engineer<br>Developer<br>Artist</p>
         <div class="hero-meta">
@@ -381,18 +365,10 @@ footer a:hover { color:var(--ink-dim); }
   </section>
 </div>
 
-<!-- ══════════════════════════════════════════════════════
-     MORPH STAGE — sticky
-══════════════════════════════════════════════════════ -->
 <div id="morph-stage">
-  <div id="ascii-morph">
-    <pre id="morph-pre"></pre>
-  </div>
+  <div id="ascii-morph"><pre id="morph-pre"></pre></div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════
-     SCROLL CONTENT
-══════════════════════════════════════════════════════ -->
 <div id="scroll-content">
 
   <section id="projects" class="sec glass-panel">
@@ -476,131 +452,105 @@ footer a:hover { color:var(--ink-dim); }
 })();
 
 /* ════════════════════════════════════════════════════════════
-   GALAXY GENERATOR
-   Sizes the grid to fill #hero-wrapper exactly (full bleed).
+   GALAXY — font-size computed so chars tile exactly edge-to-edge.
+   Key insight: instead of guessing char width, we measure it at
+   a known font-size, compute the ratio, then solve for the
+   font-size that makes N columns fill the container width exactly.
 ════════════════════════════════════════════════════════════ */
 (function(){
-  var r   = document.getElementById("render");
-  var wrapper = document.getElementById("hero-wrapper"); // measure the bordered wrapper
+  var pre     = document.getElementById('render');
+  var wrapper = document.getElementById('hero-wrapper');
+  var charRatio = 0.6; // charWidth / fontSize — measured after font loads
 
-  var height, width, stars, trails;
-  var field = [];
-  var ds = " ";
+  function measureRatio(testSize) {
+    var s = document.createElement('span');
+    s.style.cssText = 'position:absolute;visibility:hidden;white-space:pre;font-family:"VT323",monospace;font-size:'+testSize+'px;line-height:1;';
+    s.textContent = 'X'.repeat(40);
+    document.body.appendChild(s);
+    var w = s.getBoundingClientRect().width;
+    s.remove();
+    return w > 0 ? w / (testSize * 40) : 0.6;
+  }
 
-  var symbols = [".", "_", "-", "~", "°", "+"];
+  var cols, rows, stars, trails, field;
 
-  function computeSize() {
-    // Measure actual VT323 character dimensions after font load
-    var span = document.createElement('span');
-    span.style.cssText = 'position:absolute;visibility:hidden;white-space:pre;font-family:"VT323",monospace;font-size:16px;line-height:12px;';
-    span.textContent = 'M';
-    document.body.appendChild(span);
-    var cw = span.getBoundingClientRect().width || 9.6;
-    span.remove();
+  function init() {
+    charRatio = measureRatio(20);
 
-    var ch = 12; // matches line-height: 12px in CSS
-
-    // Use the full viewport width so sky fills edge to edge inside the wrapper
     var W = wrapper.offsetWidth  || window.innerWidth;
     var H = wrapper.offsetHeight || window.innerHeight;
 
-    // Floor (not round) so we never exceed the container width — prevents horizontal scroll
-    width  = Math.floor(W / cw);
-    height = Math.floor(H / ch);
+    /* Target ~100-160 cols depending on width; clamp font-size to 8-20px */
+    var targetCols = Math.round(W / 8); // approx 8px per char target
+    var fs = W / (targetCols * charRatio);
+    fs = Math.max(8, Math.min(20, fs));
 
-    // Clamp to generator limits
-    width  = Math.max(30,  Math.min(400, width));
-    height = Math.max(10,  Math.min(80,  height));
-    stars  = Math.round(width * 0.33);
-    trails = Math.round(width * 0.17);
+    /* Recompute final cols/rows from clamped fs */
+    cols = Math.floor(W / (fs * charRatio));
+    rows = Math.floor(H / fs); /* line-height:1 so row height == font-size */
+
+    pre.style.fontSize   = fs + 'px';
+    pre.style.lineHeight = '1';
+
+    stars  = Math.round(cols * 0.35);
+    trails = Math.round(cols * 0.18);
+
+    buildField();
+    render();
   }
 
-  function createField(){
+  function buildField() {
     field = [];
-    for(var y=0; y<height; y++){
-      field[y] = [];
-      for(var x=0; x<width; x++){
-        field[y][x] = ds;
-      }
+    for (var y = 0; y < rows; y++) {
+      field[y] = new Array(cols).fill(' ');
     }
+    for (var i = 0; i < trails; i++) buildTrail();
+    for (var i = 0; i < stars;  i++) buildStar();
   }
 
-  function buildTrail(){
-    var ys = Math.floor(Math.random()*height);
-    var xs = Math.floor(Math.random()*width);
-    var len = Math.floor(Math.random()*((width-xs)-1)+1);
+  var SYM = ['.','_','-','~','\u00b0','+'];
+
+  function buildTrail() {
+    var ys = Math.floor(Math.random()*rows);
+    var xs = Math.floor(Math.random()*cols);
+    var len = Math.floor(Math.random()*((cols-xs)-1)+1);
     var yc = 0;
-    for(var i=0; i<len; i++){
-      var rndSym = Math.floor(Math.random()*symbols.length);
-      var rndY   = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
-      if(rndY == 1)      yc += 1;
-      else if(rndY == 2) yc -= 1;
-      if(ys+yc > height-1 || ys+yc < 0) return;
-      try { field[ys+yc][xs+i] = symbols[rndSym]; } catch(e){}
+    for (var i=0; i<len; i++) {
+      var dy = Math.floor(Math.random()*3)+1;
+      if(dy===1) yc++; else if(dy===2) yc--;
+      if(ys+yc>rows-1||ys+yc<0) return;
+      try{ field[ys+yc][xs+i]=SYM[Math.floor(Math.random()*SYM.length)]; }catch(e){}
     }
   }
 
-  function buildStar(){
-    var rndStar = Math.floor(Math.random()*6);
-    var ys = Math.floor(Math.random()*height);
-    var xs = Math.floor(Math.random()*width);
-    if(ys+1 > height-1 || ys-1 < 0 || xs+1 > width-1 || xs-1 < 0){
-      field[ys][xs] = ds;
-    } else {
-      switch(rndStar){
-        case 0:
-          field[ys][xs]   = "o";
-          field[ys+1][xs] = "|";
-          field[ys-1][xs] = "|";
-          field[ys][xs+1] = "-";
-          field[ys][xs-1] = "-";
-          break;
-        case 1: field[ys][xs] = "."; break;
-        case 2: field[ys][xs] = "`"; break;
-        case 3:
-          field[ys][xs]   = "~";
-          if(xs+1 < width) field[ys][xs+1] = "°";
-          break;
-        case 4: field[ys][xs] = ","; break;
-        case 5: field[ys][xs] = "+"; break;
-        default: field[ys][xs] = "*"; break;
-      }
+  function buildStar() {
+    var t=Math.floor(Math.random()*6);
+    var ys=Math.floor(Math.random()*rows);
+    var xs=Math.floor(Math.random()*cols);
+    if(ys+1>rows-1||ys-1<0||xs+1>cols-1||xs-1<0){field[ys][xs]=' ';return;}
+    switch(t){
+      case 0:field[ys][xs]='o';field[ys+1][xs]='|';field[ys-1][xs]='|';field[ys][xs+1]='-';field[ys][xs-1]='-';break;
+      case 1:field[ys][xs]='.';break;
+      case 2:field[ys][xs]='`';break;
+      case 3:field[ys][xs]='~';if(xs+1<cols)field[ys][xs+1]='\u00b0';break;
+      case 4:field[ys][xs]=',';break;
+      case 5:field[ys][xs]='+';break;
     }
   }
 
-  function generateGalaxy(){
-    for(var i=0; i<trails; i++) buildTrail();
-    for(var i=0; i<stars;  i++) buildStar();
+  function render() {
+    var out = [];
+    for (var y=0; y<rows; y++) out.push(field[y].join(''));
+    pre.textContent = out.join('\n');
   }
 
-  function renderGalaxy(){
-    var lines = [];
-    for(var y=0; y<height; y++){
-      lines.push(field[y].join(''));
-    }
-    r.textContent = lines.join('\n');
-  }
+  var rt;
+  window.addEventListener('resize',function(){ clearTimeout(rt); rt=setTimeout(init,200); });
 
-  function init(){
-    computeSize();
-    createField();
-    generateGalaxy();
-    renderGalaxy();
-  }
-
-  var resizeTimer;
-  window.addEventListener('resize', function(){
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(init, 250);
-  });
-
-  if(document.fonts && document.fonts.ready){
-    Promise.race([
-      document.fonts.ready,
-      new Promise(function(res){ setTimeout(res, 1500); })
-    ]).then(init);
+  if(document.fonts&&document.fonts.ready){
+    Promise.race([document.fonts.ready,new Promise(function(r){setTimeout(r,1500);})]).then(init);
   } else {
-    window.addEventListener('load', init);
+    window.addEventListener('load',init);
   }
 })();
 
@@ -610,23 +560,20 @@ footer a:hover { color:var(--ink-dim); }
 ════════════════════════════════════════════════════════════ */
 (function(){
   const el=document.getElementById('morph-pre');
-  const CW=68, CH=24;
+  const CW=68,CH=24;
   function rep(p,n){if(n<1)return'';let r='';while(n>1){if(n&1)r+=p;n>>=1;p+=p;}return r+p;}
   function repAt(s,i,c){return s.substr(0,i)+c+s.substr(i+c.length);}
   let rData=[],fAnim=[],mTimer=null;
-
   function sq(data){
     data=data.map(r=>String(r));
     let mX=0;data.forEach(r=>{if(r.length>mX)mX=r.length;});
     data=data.map(r=>r.length<mX?r+rep(' ',mX-r.length):r);
-    const px=Math.floor((CW-mX)/2);
-    const py=Math.floor((CH-data.length)/2);
+    const px=Math.floor((CW-mX)/2),py=Math.floor((CH-data.length)/2);
     data=data.map(r=>rep(' ',Math.max(0,px))+r+rep(' ',Math.max(0,px)));
     const top=[];for(let i=0;i<Math.max(0,py);i++)top.push(rep(' ',CW));
     const bot=[];while(top.length+data.length+bot.length<CH)bot.push(rep(' ',CW));
     return top.concat(data).concat(bot);
   }
-
   function crushLine(data,line,s,e){
     const cy=Math.floor(CH/2),dir=line>cy?-1:1,g='+*/\\';
     data[line]=repAt(data[line],s,' ');data[line]=repAt(data[line],e,' ');
@@ -637,7 +584,6 @@ footer a:hover { color:var(--ink-dim); }
     }
     return data;
   }
-
   function getMorphed(data){
     let found=false;
     for(let i=0;i<data.length;i++){
@@ -647,10 +593,8 @@ footer a:hover { color:var(--ink-dim); }
     }
     return found?data:false;
   }
-
   function rawRender(d){el.textContent=d.map(r=>r).join('\n');rData=d;}
   function init(d){rawRender(sq(d.slice()));}
-
   function morph(data){
     clearTimeout(mTimer);
     const dec=[],con=[];let clone=rData.slice();
@@ -660,7 +604,6 @@ footer a:hover { color:var(--ink-dim); }
     fAnim=dec.concat(con);next();
   }
   function next(){if(!fAnim.length)return;mTimer=setTimeout(()=>{rawRender(fAnim.shift());next();},22);}
-
   const FRAMES=[
   ["                _ooOoo_","               o8888888o","               88\" . \"88","               (| -_- |)","               O\\  =  /O","            ____/`---'\\____","          .'  \\\\|     |//  `.","         /  \\\\|||  :  |||//  \\","        /  _||||| -:- |||||_  \\","        |   | \\\\\\  -  /'| |   |","        | \\_|  '\\`---'/  |_/ |","        \\  .-\\__ `-. -'__/-.  /","      ___`. .'  /--.--\\  `. .'___","   .\"\" '<  `.___\\_<|>_/___.' _> \\\"\".","  | | :  `- \\`. ;`. _/; .'/ /  .' ; |","  \\  \\ `-.   \\_\\_`. _.'_/_/  -' _.' /","===`-.`___`-.__\\ \\___  /__.-'_.'_.-'===","                `=--=-'    "],
   ["         ____","        o8%8888,","      o88%8888888.","     8'-    -:8888b","    8'         8888","   d8.-=. ,==-.:888b","   >8 `~` :`~' d8888","   88         ,88888","   88b. `-~  ':88888","   888b ~==~ .:88888","   88888o--:':::8888","   `88888| :::' 8888b","   8888^^'       8888b","  d888           ,%888b."," d88%            %%%8--'-.","  /88:.__ ,       _%-' ---  -","    '''::===..-'   =  --.  `"],
@@ -668,7 +611,6 @@ footer a:hover { color:var(--ink-dim); }
   ["      _      _      _","   __(.)< __(.)> __(.)=","   \\___)  \\___)  \\___)  ","          _      _      _","       __(.)< __(.)> __(.)=","       \\___)  \\___)  \\___)   ","      _      _      _","   __(.)< __(.)> __(.)=","   \\___)  \\___)  \\___)   ","          _      _      _","       __(.)< __(.)> __(.)=","       \\___)  \\___)  \\___)  "],
   ["                             /","                            /","                           /;","                          //","                         ;/","                       ,//","                   _,-' ;_,,","                _,'-_  ;|,'","            _,-'_,..--. |","    ___   .'-'_)'  ) _)\\|      ___","  ,'\"\"\"` '' _  )   ) _)  ''--'''_,-'","-={-o-  /|    )  _)  ) ; '_,--''","  \\ -' ,`.  ) .)  _)_,''|","   `.(   `------''     /","     `.\\             _,'","       `-.____....-\\\\","                 || \\\\","                 // ||","                //  ||","            _-.//_ _||_,","              ,'  ,-'/"]
   ];
-
   let idx=0;init(FRAMES[0]);
   setInterval(()=>{idx=(idx+1)%FRAMES.length;morph(FRAMES[idx]);},3200);
 })();
@@ -681,14 +623,10 @@ footer a:hover { color:var(--ink-dim); }
   const WAVE_SPEED=670,WAVE_DUR=2050,WAVE_BAND=268,WAVE_TRAIL=2.2,
         WAVE_SHRINK=2.5,WAVE_NOISE=4,WAVE_DENSITY=1.25,
         WAVE_MIN_DIST=69,CHAR_SPEED=76;
-
   const PALETTE='.,\u00b7-\u2500~+:;=*\u03c0\u2510\u250c\u2518\u2554\u255d\u2551\u255a!?1742&35$690#@8$\u2580\u2584\u25a0\u2591\u2592\u2593';
-
   const TARGETS=['.hero-name','.hero-desc','.hero-meta','.sec-label','.proj-name','.proj-liner','.proj-desc','.proj-tag','.proj-gh','.about-bio','.skill-group-label','.chip','.contact-hed','.cg-label','.cg-val','footer'].join(',');
-
   function hash(x,y,z){const n=Math.sin(x*127.1+y*311.7+z*74.7)*43758.5453;return n-Math.floor(n);}
   function ss(t){return t*t*(3-2*t);}
-
   function waveAt(px,py,w,now){
     const age=now-w.t,life=1-age/WAVE_DUR;
     const bh=(WAVE_BAND/2)*Math.pow(life,WAVE_SHRINK);if(bh<.5)return -1;
@@ -701,16 +639,13 @@ footer a:hover { color:var(--ink-dim); }
     const gap=(radius+wob)-dist;if(gap<-front||gap>wake)return -1;
     return ss(gap<0?1+gap/front:1-gap/wake);
   }
-
   function pickChar(idx,intensity,age,wid){
     const len=PALETTE.length,tgt=intensity*(len-1),seed=Math.floor(age/CHAR_SPEED)+wid;
     const jit=(hash(idx,seed,0)-.5)*len*.25;
     return PALETTE[Math.max(0,Math.min(len-1,Math.round(tgt+jit)))];
   }
-
   let spans=[];
   const SKIP=new Set(['SCRIPT','STYLE','NOSCRIPT','SVG','PATH','CANVAS','PRE']);
-
   function wrapNode(tn){
     const text=tn.textContent,frag=document.createDocumentFragment();
     for(let i=0;i<text.length;i++){
@@ -720,15 +655,12 @@ footer a:hover { color:var(--ink-dim); }
     }
     tn.parentNode.replaceChild(frag,tn);
   }
-
   function wrapEl(el){
     if(el.dataset.scW)return;el.dataset.scW='1';
     const wk=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,{acceptNode(n){if(!n.textContent.trim())return NodeFilter.FILTER_REJECT;if(SKIP.has(n.parentElement?.tagName))return NodeFilter.FILTER_REJECT;return NodeFilter.FILTER_ACCEPT;}});
     const nodes=[];let n;while((n=wk.nextNode()))nodes.push(n);nodes.forEach(wrapNode);
   }
-
   function initWrap(){spans=[];document.querySelectorAll(TARGETS).forEach(wrapEl);buildRects();}
-
   const rMap=new Map();
   function buildRects(){
     spans=spans.filter(s=>document.contains(s));
@@ -738,7 +670,6 @@ footer a:hover { color:var(--ink-dim); }
   function sched(){if(!rp){rp=true;requestAnimationFrame(()=>{buildRects();rp=false;});}}
   window.addEventListener('scroll',sched,{passive:true});
   window.addEventListener('resize',sched);
-
   let waves=[],wid=0,lx=-9999,ly=-9999,running=false;
   function emit(x,y){
     const dx=x-lx,dy=y-ly;if(dx*dx+dy*dy<WAVE_MIN_DIST*WAVE_MIN_DIST)return;
@@ -747,7 +678,6 @@ footer a:hover { color:var(--ink-dim); }
   }
   document.addEventListener('mousemove',e=>emit(e.clientX,e.clientY));
   document.addEventListener('touchmove',e=>{const t=e.touches[0];if(t)emit(t.clientX,t.clientY);},{passive:true});
-
   function loop(){
     const now=performance.now();waves=waves.filter(w=>now-w.t<WAVE_DUR);
     if(!waves.length){spans.forEach(s=>{if(s.dataset.sc){delete s.dataset.sc;s.textContent=s.dataset.o;}});running=false;return;}
@@ -762,7 +692,6 @@ footer a:hover { color:var(--ink-dim); }
     });
     requestAnimationFrame(loop);
   }
-
   function boot(){
     setTimeout(()=>{
       initWrap();
