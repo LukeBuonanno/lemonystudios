@@ -51,8 +51,34 @@ body {
 .cursor { position:fixed;top:0;left:0;pointer-events:none;z-index:999999;mix-blend-mode:difference; }
 .cursor-dot { width:8px;height:8px;transform:translate(-50%,-50%);background:#fff;border-radius:50%; }
 .follower { position:fixed;top:0;left:0;pointer-events:none;z-index:999998;mix-blend-mode:difference; }
-.follower-circle { transform:translate(-50%,-50%);width:40px;height:40px;border-radius:50%;border:1.5px solid #fff;transition:width 200ms ease-out,height 200ms ease-out,background 200ms ease-out; }
+.follower-circle {
+  transform: translate(-50%, -50%);
+
+  width: 120px;
+  height: 120px;
+
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255,255,255,0.95) 60%,
+    rgba(255,255,255,0.35) 20%,
+    rgba(255,255,255,0.10) 20%,
+    rgba(255,255,255,0.00) 20%
+  );
+  filter: blur(6px);
+  mix-blend-mode: difference;
+  transition: width 200ms ease-out, height 200ms ease-out;
+  will-change: transform;
+}
+
 .follower-circle.scaled { width:76px;height:76px;background:#fff; }
+
+.follower-circle.scaled {
+  width: 180px;
+  height: 180px;
+  filter: blur(10px);
+}
+
 a,button,[role=button],.proj-bar { cursor:none; }
 @media(hover:none){ .cursor,.follower{display:none;} body{cursor:auto;} a,button,[role=button],.proj-bar{cursor:pointer;} }
 
@@ -66,6 +92,39 @@ body::after {
 /* ══════════════════════════════════════════════════
    HERO WRAPPER — amber glass-panel border
 ══════════════════════════════════════════════════ */
+
+#theme-toggle {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 999999;
+  font-family: var(--body);
+  font-size: 11px;
+  letter-spacing: .2em;
+  color: var(--ink);
+  cursor: pointer;
+  user-select: none;
+  text-align: center;
+  line-height: 1.2;
+}
+
+#theme-toggle .box {
+  display: block;
+  color: var(--ink-dim);
+}
+
+#theme-toggle .icon {
+  display: block;
+  font-size: 16px;
+  margin: 2px 0;
+  color: var(--amber);
+  text-shadow: 0 0 10px rgba(245,166,35,.5);
+}
+
+/* hover glow */
+#theme-toggle:hover .icon {
+  color: var(--hi);
+}
 #hero-wrapper {
   margin: 16px 16px 0 16px;
   border-radius: var(--panel-radius);
@@ -353,6 +412,14 @@ footer a:hover { color:var(--ink-dim); }
 </head>
 <body>
 
+
+  <div id="theme-wipe"></div>
+
+<div id="theme-toggle" aria-label="Toggle theme">
+  <span class="box">┌─────┐</span>
+  <span class="icon">☾</span>
+  <span class="box">└─────┘</span>
+</div>
 <div class="cursor" id="cur"><div class="cursor-dot"></div></div>
 <div class="follower" id="fol"><div class="follower-circle" id="fol-circle"></div></div>
 
@@ -842,3 +909,4 @@ document.querySelectorAll('.reveal').forEach(el=>{
 </script>
 </body>
 </html>
+
