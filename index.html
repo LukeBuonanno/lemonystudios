@@ -51,23 +51,7 @@ body {
 .cursor { position:fixed;top:0;left:0;pointer-events:none;z-index:999999;mix-blend-mode:difference; }
 .cursor-dot { width:8px;height:8px;transform:translate(-50%,-50%);background:#fff;border-radius:50%; }
 .follower { position:fixed;top:0;left:0;pointer-events:none;z-index:999998;mix-blend-mode:difference; }
-.follower-circle {
-  transform: translate(-50%, -50%);
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(255,255,255,0.95) 60%,
-    rgba(255,255,255,0.35) 20%,
-    rgba(255,255,255,0.10) 20%,
-    rgba(255,255,255,0.00) 20%
-  );
-  filter: blur(6px);
-  mix-blend-mode: difference;
-  transition: width 200ms ease-out, height 200ms ease-out;
-  will-change: transform;
-}
+.follower-circle { transform:translate(-50%,-50%);width:40px;height:40px;border-radius:50%;border:1.5px solid #fff;transition:width 200ms ease-out,height 200ms ease-out,background 200ms ease-out; }
 .follower-circle.scaled { width:76px;height:76px;background:#fff; }
 a,button,[role=button],.proj-bar { cursor:none; }
 @media(hover:none){ .cursor,.follower{display:none;} body{cursor:auto;} a,button,[role=button],.proj-bar{cursor:pointer;} }
@@ -82,38 +66,6 @@ body::after {
 /* ══════════════════════════════════════════════════
    HERO WRAPPER — amber glass-panel border
 ══════════════════════════════════════════════════ */
-#theme-toggle {
-  position: fixed;
-  top: 18px;
-  right: 18px;
-  z-index: 999999;
-  font-family: var(--body);
-  font-size: 11px;
-  letter-spacing: .2em;
-  color: var(--ink);
-  cursor: pointer;
-  user-select: none;
-  text-align: center;
-  line-height: 1.2;
-}
-
-#theme-toggle .box {
-  display: block;
-  color: var(--ink-dim);
-}
-
-#theme-toggle .icon {
-  display: block;
-  font-size: 16px;
-  margin: 2px 0;
-  color: var(--amber);
-  text-shadow: 0 0 10px rgba(245,166,35,.5);
-}
-
-/* hover glow */
-#theme-toggle:hover .icon {
-  color: var(--hi);
-}
 #hero-wrapper {
   margin: 16px 16px 0 16px;
   border-radius: var(--panel-radius);
@@ -224,8 +176,8 @@ html[data-theme="light"] {
 .hero-meta {
   text-align: center;
   font-family: var(--body);
-  font-size: 11px;
-  letter-spacing: .14em;
+  font-size: 13px;
+  letter-spacing: .01em;
   text-transform: uppercase;
   color: var(--ink-dim);
   line-height: 2;
@@ -400,11 +352,7 @@ footer a:hover { color:var(--ink-dim); }
 </style>
 </head>
 <body>
-<div id="theme-toggle" aria-label="Toggle theme">
-  <span class="box">┌─────┐</span>
-  <span class="icon">☾</span>
-  <span class="box">└─────┘</span>
-</div>
+
 <div class="cursor" id="cur"><div class="cursor-dot"></div></div>
 <div class="follower" id="fol"><div class="follower-circle" id="fol-circle"></div></div>
 
@@ -447,10 +395,10 @@ footer a:hover { color:var(--ink-dim); }
     <div class="about-grid">
       <div class="about-bio reveal">
         <p>I'm a <em>mechanical engineering student</em> who sometimes likes to
-        pretend I'm an artist. I have a passion for <em>good and unique product
+mess around with hobbies some might consider art. I have a passion for <em>good and unique product
         design</em> that is intentional.</p>
-        <p>When I'm not building, I play bass, guitar, and piano — sometimes
-        with my band <em>Hazel</em>.</p>
+        <p>When I'm not studying or building, I play bass, guitar, and piano (sometimes
+        with my band <em>Hazel</em>).</p>
       </div>
       <div class="reveal">
         <div class="skill-group">
@@ -803,11 +751,11 @@ if(document.fonts?.ready){
    PROJECTS
 ════════════════════════════════════════════════════════════ */
 const PROJECTS=[
-  {name:"BagByte",liner:"An ESP32 backpack charm that wears your identity.",desc:"A hardware charm that clips onto your backpack strap. Part identity piece, part functional device — because your gear should say something about you before you even speak.",tags:["ESP32","C++","Hardware","Embedded"],github:"https://github.com/LukeBuonanno",image:""},
-  {name:"Spot",liner:"A desk Spotify controller with real, tangible buttons.",desc:"Physical hardware controller for Spotify designed to sit on your desk. Knobs and buttons you can actually feel — because reaching for a mouse to change a song is a small tragedy.",tags:["ESP32","Spotify API","C++","Product Design"],github:"https://github.com/LukeBuonanno",image:""},
-  {name:"Deck",liner:"An e-ink wristwatch for people tired of glowing screens.",desc:"ESP32-powered watch with an e-ink display. Minimal, readable in sunlight, weeks of battery life. A watch that tells you the time and nothing else — by deliberate design.",tags:["ESP32","E-Ink","C++","Wearable"],github:"https://github.com/LukeBuonanno",image:""},
-  {name:"You're So Forgetful",liner:"A Java ASCII adventure that punishes bad memory.",desc:"A text-based Java game built entirely in ASCII. Branching narrative, moody atmosphere, and consequences for players who can't remember what they read two choices ago.",tags:["Java","ASCII","Game Design","CLI"],github:"https://github.com/LukeBuonanno",image:""},
-  {name:"Bit",liner:"A fully embodied AI agent that can touch its environment.",desc:"An AI agent with physical presence — sensors, actuators, the whole body. Bit doesn't just process; it interacts, reacts, and exists in the same room as you.",tags:["AI","Python","Robotics","Embedded"],github:"https://github.com/LukeBuonanno",image:""},
+  {name:"Charm",liner:"An ESP32 backpack charm that wears your identity.",desc:"A hardware charm that clips onto your backpack. A bag charm with customizable animations, info, and games. A compact ESP32-S3-powered device featuring a 0.96 in 80x160 RGB TFT display, onboard battery, and a single-button interface. It supports animations, a clock, weather display, and simple apps.",tags:["ESP32","C++","Hardware","Embedded"],github:"https://github.com/LukeBuonanno/Charm",image:"./charm.jpeg"},
+  {name:"Spot",liner:"A desk Spotify playback controller",desc:"Physical hardware controller for Spotify designed to sit on your desk. ",tags:["ESP32","Spotify API","C++","Product Design"],github:"https://github.com/LukeBuonanno/Spot",image:"./spot.JPG"},
+  {name:"Deck",liner:"An e-ink wristwatch for people tired of glowing screens.",desc:"ESP32-powered watch with an e-ink display. Minimal, readable in sunlight, long battery life.",tags:["ESP32","E-Ink","C++","Wearable"],github:"https://github.com/LukeBuonanno/Deck",image:"./deck.jpg"},
+  {name:"You're So Forgetful",liner:"A Java ASCII adventure that punishes bad memory.",desc:"A text-based Java game built entirely in ASCII. ",tags:["Java","ASCII","Game Design","CLI"],github:"https://lukebuonanno.github.io/you-resoforgetful/",image:"./forgetful.GIF"},
+  {name:"Bit",liner:"A fully embodied AI agent that can touch its environment.",desc:"Bit has not fully taken shape yet, currently the software is being written to be able to wire up an action toolbox to the llm.",tags:["Raspberry Pi 5", "AI","Python","Robotics","Embedded"],github:"https://github.com/LukeBuonanno/Bit",image:"bit.jpg"},
 ];
 
 const list=document.getElementById('proj-list');
@@ -832,7 +780,7 @@ PROJECTS.forEach((p,i)=>{
           <p class="proj-desc">${p.desc}</p>
           <div class="proj-tags">${p.tags.map(t=>`<span class="proj-tag">${t}</span>`).join('')}</div>
           <a class="proj-gh" href="${p.github}" target="_blank" rel="noopener">
-            View on GitHub
+            View  on  GitHub
             <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
           </a>
         </div>
@@ -894,5 +842,3 @@ document.querySelectorAll('.reveal').forEach(el=>{
 </script>
 </body>
 </html>
-
-
