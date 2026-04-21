@@ -11,7 +11,12 @@
 <style>
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; }
-
+@font-face {
+  font-family: 'Sixtyfour';
+  src: url('./Sixtyfour-400.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 :root {
   --bg:           #07070a;
   --surface:      #0d0d12;
@@ -22,7 +27,7 @@ html { scroll-behavior:smooth; }
   --warm:         #bfb89e;
   --hi:           #e6ddc0;
   --amber:        #f5a623;
-  --display:      'Departure Mono', monospace;
+  --display:      'Sixtyfour', monospace;
   --body:         'Courier Prime', 'Courier New', monospace;
   --glass-bg:     rgba(7,7,10,0.72);
   --glass-border: rgba(245,166,35,0.25);
@@ -46,7 +51,23 @@ body {
 .cursor { position:fixed;top:0;left:0;pointer-events:none;z-index:999999;mix-blend-mode:difference; }
 .cursor-dot { width:8px;height:8px;transform:translate(-50%,-50%);background:#fff;border-radius:50%; }
 .follower { position:fixed;top:0;left:0;pointer-events:none;z-index:999998;mix-blend-mode:difference; }
-.follower-circle { transform:translate(-50%,-50%);width:40px;height:40px;border-radius:50%;border:1.5px solid #fff;transition:width 200ms ease-out,height 200ms ease-out,background 200ms ease-out; }
+.follower-circle {
+  transform: translate(-50%, -50%);
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255,255,255,0.95) 60%,
+    rgba(255,255,255,0.35) 20%,
+    rgba(255,255,255,0.10) 20%,
+    rgba(255,255,255,0.00) 20%
+  );
+  filter: blur(6px);
+  mix-blend-mode: difference;
+  transition: width 200ms ease-out, height 200ms ease-out;
+  will-change: transform;
+}
 .follower-circle.scaled { width:76px;height:76px;background:#fff; }
 a,button,[role=button],.proj-bar { cursor:none; }
 @media(hover:none){ .cursor,.follower{display:none;} body{cursor:auto;} a,button,[role=button],.proj-bar{cursor:pointer;} }
@@ -61,6 +82,38 @@ body::after {
 /* ══════════════════════════════════════════════════
    HERO WRAPPER — amber glass-panel border
 ══════════════════════════════════════════════════ */
+#theme-toggle {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 999999;
+  font-family: var(--body);
+  font-size: 11px;
+  letter-spacing: .2em;
+  color: var(--ink);
+  cursor: pointer;
+  user-select: none;
+  text-align: center;
+  line-height: 1.2;
+}
+
+#theme-toggle .box {
+  display: block;
+  color: var(--ink-dim);
+}
+
+#theme-toggle .icon {
+  display: block;
+  font-size: 16px;
+  margin: 2px 0;
+  color: var(--amber);
+  text-shadow: 0 0 10px rgba(245,166,35,.5);
+}
+
+/* hover glow */
+#theme-toggle:hover .icon {
+  color: var(--hi);
+}
 #hero-wrapper {
   margin: 16px 16px 0 16px;
   border-radius: var(--panel-radius);
@@ -75,7 +128,19 @@ body::after {
   -webkit-backdrop-filter: blur(2px) saturate(1.1) brightness(1.5);
   position: relative;
 }
-
+html[data-theme="light"] {
+  --bg:           #f5f2e8;
+  --surface:      #ffffff;
+  --line:         #d7d2c5;
+  --ink:          #1b1b1b;
+  --ink-dim:      #4a4a4a;
+  --ink-faint:    #c9c3b3;
+  --warm:         #2a2a2a;
+  --hi:           #000000;
+  --amber: #1a1a1a;
+  --glass-bg:     rgba(255,255,255,0.65);
+  --glass-border: rgba(0,0,0,0.15);
+}
 #galaxy-hero {
   position: relative;
   width: 100%;
@@ -125,7 +190,7 @@ body::after {
 
 .hero-name {
   font-family: var(--display);
-  font-size: clamp(44px, 9vw, 120px);
+  font-size: clamp(44px, 5vw, 120px);
   font-weight: 400;
   line-height: 1.1;
   letter-spacing: 0.02em;
@@ -258,7 +323,7 @@ body::after {
 .proj-inner { display:grid;grid-template-rows:auto 0fr;transition:grid-template-rows .48s cubic-bezier(.4,0,.2,1); }
 .proj-row.open .proj-inner { grid-template-rows:auto 1fr; }
 .proj-bar { padding:26px 28px;display:flex;align-items:baseline;justify-content:space-between;gap:16px;user-select:none; }
-.proj-name { font-family:var(--display);font-size:clamp(20px,3.5vw,42px);font-weight:400;letter-spacing:.02em;line-height:1.1;color:var(--hi);transition:color .2s; }
+.proj-name { font-family:var(--display);font-size:clamp(20px,2.5vw,42px);font-weight:400;letter-spacing:.02em;line-height:1.1;color:var(--hi);transition:color .2s; }
 .proj-row:hover .proj-name { color:#fff; }
 .proj-right-bar { display:flex;align-items:center;gap:16px;flex-shrink:0; }
 .proj-liner { font-family:var(--body);font-size:12px;font-style:italic;color:var(--ink-dim);max-width:260px;text-align:right; }
@@ -289,7 +354,7 @@ body::after {
 .chip:hover { border-color:var(--amber);color:var(--amber); }
 
 /* CONTACT */
-.contact-hed { font-family:var(--display);font-size:clamp(36px,8vw,100px);font-weight:400;line-height:1.0;letter-spacing:.02em;color:var(--hi);margin-bottom:64px; }
+.contact-hed { font-family:var(--display);font-size:clamp(36px,4vw,100px);font-weight:400;line-height:1.0;letter-spacing:.02em;color:var(--hi);margin-bottom:64px; }
 .contact-hed a { color:inherit;text-decoration:none;border-bottom:2px solid var(--ink-faint);padding-bottom:6px;transition:border-color .3s; }
 .contact-hed a:hover { border-color:var(--hi); }
 .contact-grid { display:grid;grid-template-columns:repeat(5,1fr);gap:28px;border-top:1px solid var(--line);padding-top:48px; }
@@ -335,7 +400,11 @@ footer a:hover { color:var(--ink-dim); }
 </style>
 </head>
 <body>
-
+<div id="theme-toggle" aria-label="Toggle theme">
+  <span class="box">┌─────┐</span>
+  <span class="icon">☾</span>
+  <span class="box">└─────┘</span>
+</div>
 <div class="cursor" id="cur"><div class="cursor-dot"></div></div>
 <div class="follower" id="fol"><div class="follower-circle" id="fol-circle"></div></div>
 
@@ -422,7 +491,7 @@ footer a:hover { color:var(--ink-dim); }
       <div><span class="cg-label">GitHub</span><a class="cg-val" href="https://github.com/LukeBuonanno" target="_blank" rel="noopener">@LukeBuonanno</a></div>
       <div><span class="cg-label">LinkedIn</span><a class="cg-val" href="https://www.linkedin.com/in/luke-buonanno-5bb6a7354/" target="_blank" rel="noopener">Luke Buonanno</a></div>
       <div><span class="cg-label">Instagram</span><a class="cg-val" href="https://instagram.com/lemony__studios" target="_blank" rel="noopener">@lemony__studios</a></div>
-      <div><span class="cg-label">Music</span><a class="cg-val" href="#">Hazel</a></div>
+      <div><span class="cg-label">Music</span><a class="cg-val" href="https://instagram.com/HazelBand.SWB" target="_blank" rel="noopener">@HazelBand.SWB</a></div>
     </div>
   </section>
 
@@ -447,7 +516,22 @@ footer a:hover { color:var(--ink-dim); }
   document.querySelectorAll('a,button,[role=button]').forEach(bind);
   window._curBind=bind;
 })();
+const toggle = document.getElementById("theme-toggle");
+const icon = toggle.querySelector(".icon");
 
+function setTheme(mode) {
+  document.documentElement.dataset.theme = mode;
+  localStorage.setItem("theme", mode);
+  icon.textContent = mode === "light" ? "☼" : "☾";
+}
+
+toggle.addEventListener("click", () => {
+  const current = document.documentElement.dataset.theme || "dark";
+  setTheme(current === "dark" ? "light" : "dark");
+});
+
+// load saved theme
+setTheme(localStorage.getItem("theme") || "dark");
 /* ════════════════════════════════════════════════════════════
    GALAXY — font-size computed so chars tile exactly edge-to-edge.
    Key insight: instead of guessing char width, we measure it at
@@ -631,7 +715,7 @@ if(document.fonts?.ready){
    TEXT WAVE SCRAMBLE
 ════════════════════════════════════════════════════════════ */
 (function(){
-  const WAVE_SPEED=500,WAVE_DUR=1000,WAVE_BAND=268,WAVE_TRAIL=2.2,
+  const WAVE_SPEED=700,WAVE_DUR=1000,WAVE_BAND=300,WAVE_TRAIL=2.2,
         WAVE_SHRINK=2.5,WAVE_NOISE=4,WAVE_DENSITY=1.2,
         WAVE_MIN_DIST=140,CHAR_SPEED=70;
   const PALETTE='.,\u00b7-\u2500~+:;=*\u03c0\u2510\u250c\u2518\u2554\u255d\u2551\u255a!?1742&35$690#@8$\u2580\u2584\u25a0\u2591\u2592\u2593';
