@@ -69,11 +69,11 @@ body {
   height: 100px;
   border-radius: 50%;
   background: radial-gradient(circle,rgba(255,255,255,0.95) 60%,rgba(255,255,255,0.35) 20%,rgba(255,255,255,0.10) 20%,rgba(255,255,255,0.00) 20%);
-  filter: blur(6px);
+  filter: blur(4.5px);
   mix-blend-mode: difference;
   transition: width 200ms ease-out, height 200ms ease-out;
 }
-.follower-circle.scaled { width:40px;height:40px;filter:blur(6px); }
+.follower-circle.scaled { width:40px;height:40px;filter:blur(2px); }
 a,button,[role=button],.proj-bar { cursor:none; }
 @media(hover:none){ .cursor,.follower{display:none;} body{cursor:auto;} a,button,[role=button],.proj-bar{cursor:pointer;} }
 
@@ -86,7 +86,7 @@ body::after {
 
 #theme-toggle {
   position: fixed;
-  bottom: 3.5%;   /* was top */
+  bottom: 4.2%;   /* was top */
   right: 2.5%;     /* was right */
   z-index: 999999;
   font-family: var(--body);
@@ -267,45 +267,58 @@ html[data-theme="light"] {
 .proj-inner { display:grid;grid-template-rows:auto 0fr;transition:grid-template-rows .48s cubic-bezier(.4,0,.2,1); }
 .proj-row.open .proj-inner { grid-template-rows:auto 1fr; }
 .proj-bar { padding:26px 28px;display:flex;align-items:baseline;justify-content:space-between;gap:16px;user-select:none; }
-.proj-name { font-family:var(--display);font-size:clamp(20px,2.5vw,42px);font-weight:400;letter-spacing:.02em;line-height:1.1;color:var(--hi);transition:color .2s; }
+.proj-name { font-family:var(--display);font-size:clamp(18px,2.5vw,42px);font-weight:400;letter-spacing:.02em;line-height:1.1;color:var(--hi);transition:color .2s; }
 .proj-row:hover .proj-name { color:#fff; }
 .proj-right-bar { display:flex;align-items:center;gap:16px;flex-shrink:0; }
 .proj-liner { font-family:var(--body);font-size:14px;font-style:italic;color:var(--ink-dim);text-align:right; }
 .proj-chevron { width:14px;height:14px;flex-shrink:0;color:var(--ink-dim);transition:transform .38s cubic-bezier(.4,0,.2,1),color .2s; }
 .proj-row.open .proj-chevron { transform:rotate(180deg);color:var(--amber); }
 .proj-panel { overflow:hidden;content-visibility:auto; }
-.proj-panel-inner { padding:0 28px 40px;display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start; }
+.proj-panel-inner {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+  gap: 36px;
+  align-items: start;
+}
 .proj-img-wrap { width:100%;aspect-ratio:16/9;background:var(--ink-faint);overflow:hidden; }
 .proj-img-wrap img { width:100%;height:100%;object-fit:cover;opacity:.7;filter:grayscale(25%);transition:opacity .4s,filter .4s,transform .55s; }
 .proj-row:hover .proj-img-wrap img { opacity:1;filter:none;transform:scale(1.03); }
 .proj-img-placeholder { width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);border:1px dashed var(--ink-faint); }
 .proj-desc { font-family:var(--body);font-size:14px;line-height:1.75;color:var(--warm);margin-bottom:20px; }
-.proj-tags { display:flex;flex-wrap:wrap;gap:5px;margin-bottom:24px; }
-.proj-tag { font-family:var(--body);font-size:14px;letter-spacing:.18em;text-transform:uppercase;border:1px solid var(--line);color:var(--ink-dim);padding:3px 8px; }
-.proj-gh { display:inline-flex;gap:2px;align-items:center;font-family:var(--body);font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--hi);text-decoration:none;border-bottom:1px solid var(--ink-faint);padding-bottom:2px;transition:gap .2s,border-color .2s; }
+.proj-tags { display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px; }
+.proj-tag { font-family:var(--body);font-size:13px;letter-spacing:.18em;border:1px solid rgba(245,166,35,0.00);color:rgb(210,160,77);padding:4px 12px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;background:transparent;box-shadow:inset 0 0 0px rgba(245,166,35,1.00), 0 0 22px rgba(245,166,35,0.65); }
+.proj-tag:hover { border-color:rgba(245,166,35,0.7);color:#f5a623; }
+.proj-gh { display:inline-flex;gap:2px;align-items:center;font-family:var(--body);font-size:14px;letter-spacing:.1em;color:var(--hi);text-decoration:none;border-bottom:1px solid var(--ink-faint);padding-bottom:2px;transition:gap .2s,border-color .2s; }
 .proj-gh:hover { gap:3px;border-color:var(--hi); }
 .proj-gh svg { width:11px;height:11px; }
 
 /* ABOUT */
-.about-grid { display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start; }
-.about-bio { font-family:var(--body);font-size:clamp(14px,1.8vw,19px);line-height:1.65;color:var(--warm); }
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  gap: 72px;
+  align-items: start;
+}
+.about-bio { font-family:var(--body);font-size:clamp(8px,1.8vw,17px);line-height:1.65;color:var(--warm); }
 .about-bio em { color:var(--hi);font-style:normal; }
 .about-bio p+p { margin-top:1.2em; }
 .skill-group { margin-bottom:30px; }
 .skill-group-label { display:block;font-family:var(--body);font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:10px; }
-.chips { display:flex;flex-wrap:wrap;gap:6px; }
-.chip { font-family:var(--body);font-size:14px;letter-spacing:.08em;border:1px solid var(--line);color:var(--ink-dim);padding:4px 10px;transition:border-color .2s,color .2s; }
-.chip:hover { border-color:var(--amber);color:var(--amber); }
-
+.chips { display:flex;flex-wrap:wrap;gap:8px; }
+.chip { font-family:var(--body);font-size:13px;letter-spacing:.08em;border:1px solid rgba(245,166,35,0.00);color:rgb(210,160,77);padding:5px 14px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;background:transparent;box-shadow:inset 0 0 0px rgba(245,166,35,1.00), 0 0 22px rgba(245,166,35,0.65);transition:border-color .2s,color .2s; }
+.chip:hover { border-color:rgba(245,166,35,0.7);color:#f5a623; }
 /* CONTACT */
-.contact-hed { font-family:var(--display);font-size:clamp(36px,4vw,100px);font-weight:400;line-height:1.0;letter-spacing:.02em;color:var(--hi);margin-bottom:64px; }
+.contact-hed { font-family:var(--display);font-size:clamp(20px,4vw,37px);font-weight:400;line-height:1.0;letter-spacing:.02em;color:var(--hi);margin-bottom:64px; }
 .contact-hed a { color:inherit;text-decoration:none;border-bottom:2px solid var(--ink-faint);padding-bottom:6px;transition:border-color .3s; }
 .contact-hed a:hover { border-color:var(--hi); }
 .contact-grid { display:grid;grid-template-columns:repeat(5,1fr);gap:28px;border-top:1px solid var(--line);padding-top:48px; }
 .cg-label { display:block;font-family:var(--body);font-size:14px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:12px; }
 .cg-val { font-family:var(--body);font-size:16px;color:var(--warm);text-decoration:none;transition:color .2s;line-height:1.55; }
 .cg-val:hover { color:var(--hi); }
-
+.proj-desc, .about-bio, .proj-name, .proj-liner {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
 /* FOOTER */
 footer { padding:24px 36px;display:flex;justify-content:space-between;font-family:var(--body);font-size:14px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-faint); }
 footer a { color:inherit;text-decoration:none;transition:color .2s; }
@@ -386,9 +399,10 @@ footer a:hover { color:var(--ink-dim); }
       <div class="about-bio reveal">
         <p>I'm a <em>mechanical engineering student</em> who sometimes likes to
 mess around with hobbies some might consider art. I have a passion for <em>good and unique product
-        design</em> that is intentional.</p>
+        design</em> that is intentional.</p> </p> Currently I have been focusing on building my brand and expanding my experience. 
+        For me that looks like designing this website and creating a social media presense. </p> 
         <p>When I'm not studying or building, I play bass, guitar, and piano (sometimes
-        with my band <em>Hazel</em>).</p>
+        with my band <a href="https://instagram.com/HazelBand.SWB" target="_blank" ><em>Hazel).</em></a></p>
       </div>
       <div class="reveal">
         <div class="skill-group">
@@ -397,24 +411,27 @@ mess around with hobbies some might consider art. I have a passion for <em>good 
             <span class="chip">JavaScript</span><span class="chip">C++</span>
             <span class="chip">Python</span><span class="chip">Java</span>
             <span class="chip">HTML / CSS</span><span class="chip">LabVIEW</span>
+            <span class="chip">SQL</span>
           </div>
         </div>
         <div class="skill-group">
           <span class="skill-group-label">Frameworks &amp; Tools</span>
           <div class="chips">
             <span class="chip">Node.js</span><span class="chip">Discord.js</span>
-            <span class="chip">Discord.py</span><span class="chip">ESP32</span>
+            <span class="chip">Discord.py</span><span class="chip">ESP32</span><span class="chip">Unreal Engine 5</span><span class="chip">Autodesk Inventor</span>
           </div>
         </div>
         <div class="skill-group">
           <span class="skill-group-label">Disciplines</span>
           <div class="chips">
-            <span class="chip">Mechanical Engineering</span>
-            <span class="chip">Embedded Systems</span>
-            <span class="chip">Product Design</span>
+            <span class="chip">Mechanical&nbsp;Engineering</span>
+            <span class="chip">Computer&nbsp;Science</span>
+            <span class="chip">Embedded&nbsp;Systems</span>
+            <span class="chip">Product&nbsp;Design</span>
             <span class="chip">Firmware</span>
             <span class="chip">Game Design</span>
-            <span class="chip">AI / Robotics</span>
+            <span class="chip">AI&nbsp;/&nbsp;Robotics</span>
+             <span class="chip">CAD</span>
           </div>
         </div>
       </div>
@@ -423,7 +440,8 @@ mess around with hobbies some might consider art. I have a passion for <em>good 
 
   <section id="contact" class="sec glass-panel">
     <div class="sec-label">Contact</div>
-    <div class="contact-hed reveal"><a href="mailto:eccentricityyy@gmail.com">Let's talk.</a></div>
+    <div class="contact-hed reveal"><a href="mailto:eccentricityyy@gmail.com">Do <em>you</em> want a product designed?</a></div>
+ 
     <div class="contact-grid reveal">
       <div><span class="cg-label">Email</span><a class="cg-val" href="mailto:eccentricityyy@gmail.com">eccentricityyy<br>@gmail.com</a></div>
       <div><span class="cg-label">GitHub</span><a class="cg-val" href="https://github.com/LukeBuonanno" target="_blank" rel="noopener">@LukeBuonanno</a></div>
@@ -433,10 +451,9 @@ mess around with hobbies some might consider art. I have a passion for <em>good 
     </div>
   </section>
 
-  <footer class="glass-panel">
-    <span>© 2025 Lemony Studios</span>
-    <a href="mailto:eccentricityyy@gmail.com">eccentricityyy@gmail.com</a>
-  </footer>
+<footer class="glass-panel" style="display: flex; align-items: center; justify-content: calc(center);">
+  <span style="color: #bfb89e;">© 2026 Lemony Studios</span>
+</footer>
 </div>
 
 <script>
@@ -1446,11 +1463,11 @@ mess around with hobbies some might consider art. I have a passion for <em>good 
    PROJECTS
 ════════════════════════════════════════════════════════════ */
 const PROJECTS=[
-  {name:"Charm",liner:"An ESP32 backpack charm that wears your identity.",desc:"A hardware charm that clips onto your backpack. A bag charm with customizable animations, info, and games. A compact ESP32-S3-powered device featuring a 0.96 in 80x160 RGB TFT display, onboard battery, and a single-button interface. It supports animations, a clock, weather display, and simple apps.",tags:["ESP32","C++","Hardware","Embedded"],github:"https://github.com/LukeBuonanno/Charm",image:"./charm.jpeg"},
+  {name:"Charm",liner:"An ESP32 backpack charm.",desc:"A hardware charm that clips onto your backpack. A bag charm with customizable animations, info, and games. A compact ESP32-S3-powered device featuring a 0.96 in 80x160 RGB TFT display, onboard battery, and a single-button interface. It supports animations, a clock, weather display, and simple apps.",tags:["ESP32","C++","Hardware","Embedded"],github:"https://github.com/LukeBuonanno/Charm",image:"./charm.jpeg"},
   {name:"Spot",liner:"A desk Spotify playback controller",desc:"Physical hardware controller for Spotify designed to sit on your desk. ",tags:["ESP32","Spotify API","C++","Product Design"],github:"https://github.com/LukeBuonanno/Spot",image:"./spot.JPG"},
-  {name:"Deck",liner:"An e-ink wristwatch for people tired of glowing screens.",desc:"ESP32-powered watch with an e-ink display. Minimal, readable in sunlight, long battery life.",tags:["ESP32","E-Ink","C++","Wearable"],github:"https://github.com/LukeBuonanno/Deck",image:"./deck.jpg"},
-  {name:"You're So Forgetful",liner:"A Java ASCII adventure that punishes bad memory.",desc:"A text-based Java game built entirely in ASCII. ",tags:["Java","ASCII","Game Design","CLI"],github:"https://lukebuonanno.github.io/you-resoforgetful/",image:"./forgetful.GIF"},
-  {name:"Bit",liner:"A fully embodied AI agent that can touch its environment.",desc:"Bit has not fully taken shape yet, currently the software is being written to be able to wire up an action toolbox to the llm.",tags:["Raspberry Pi 5","AI","Python","Robotics","Embedded"],github:"https://github.com/LukeBuonanno/Bit",image:"bit.jpg"},
+  {name:"Deck",liner:"An e-ink wristwatch based on the Seiko EPD",desc:"ESP32-powered watch with an e-ink display. Minimal, readable in sunlight, long battery life.",tags:["ESP32","E-Ink","C++","Wearable"],github:"https://github.com/LukeBuonanno/Deck",image:"./deck.jpg"},
+  {name:"You're So Forgetful",liner:"A Modern Java ASCII choose your adventure",desc:"A text-based Java game built entirely in ASCII. ",tags:["Java","ASCII","Game Design","CLI"],github:"https://lukebuonanno.github.io/you-resoforgetful/",image:"./forgetful.GIF"},
+  {name:"Bit",liner:"An embodied AI agent",desc:"Bit has not fully taken shape yet, currently the software is being written to be able to wire up an action toolbox to the llm.",tags:["Raspberry Pi 5","AI","Python","Robotics","Embedded"],github:"https://github.com/LukeBuonanno/Bit",image:"bit.jpg"},
 ];
 
 const list=document.getElementById('proj-list');
