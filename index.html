@@ -73,7 +73,7 @@ body {
   mix-blend-mode: difference;
   transition: width 200ms ease-out, height 200ms ease-out;
 }
-.follower-circle.scaled { width:180px;height:180px;filter:blur(10px); }
+.follower-circle.scaled { width:40px;height:40px;filter:blur(6px); }
 a,button,[role=button],.proj-bar { cursor:none; }
 @media(hover:none){ .cursor,.follower{display:none;} body{cursor:auto;} a,button,[role=button],.proj-bar{cursor:pointer;} }
 
@@ -262,7 +262,7 @@ html[data-theme="light"] {
 .proj-list { border-top:1px solid var(--line); }
 .proj-row { border-bottom:1px solid var(--line);display:grid;grid-template-columns:48px 1fr;position:relative;overflow:hidden;transition:background .25s; }
 .proj-row:last-child { border-bottom:none; }
-.proj-row:hover { background:rgba(245,166,35,0.04); }
+.proj-row:hover { background:rgba(245,166,35,0.045); }
 .proj-num { font-family:var(--body);font-size:14px;color:var(--ink-faint);letter-spacing:.1em;border-right:1px solid var(--line);display:flex;align-items:flex-start;justify-content:center;padding-top:30px; }
 .proj-inner { display:grid;grid-template-rows:auto 0fr;transition:grid-template-rows .48s cubic-bezier(.4,0,.2,1); }
 .proj-row.open .proj-inner { grid-template-rows:auto 1fr; }
@@ -362,8 +362,8 @@ footer a:hover { color:var(--ink-dim); }
         <p class="hero-desc">{Mechanical Engineer}<br>Open-Source Developer<br>[Artist]</p>
         <div class="hero-meta">
           <a href="https://instagram.com/lemony__studios" target="_blank">@lemony__studios</a><br>
-          <a href="https://lemonystudios.onthewifi.com">&gt;Luke Buonanno&lt;</a><br>
-          <a href="https://github.com/LukeBuonanno" target="_blank">GitHub</a>
+             <a href="https://github.com/LukeBuonanno" target="_blank">&gt;GitHub&lt;</a><br>
+                    <a href="https://lemonystudios.onthewifi.com">Luke Buonanno</a>
         </div>
       </div>
     </div>
