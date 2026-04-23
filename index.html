@@ -1390,7 +1390,8 @@ mess around with hobbies some might consider art. I have a passion for <em>good 
     buildRects();
   }
 
-  function boot(){
+function boot(){
+    if(window.matchMedia('(hover: none)').matches) return;
     setTimeout(()=>{
       initWrap();
       new MutationObserver(()=>{
