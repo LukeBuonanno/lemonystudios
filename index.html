@@ -7,7 +7,6 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-DZV7F39T1X');
 </script>
 <meta charset="UTF-8" />
@@ -83,11 +82,87 @@ body::after {
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
   opacity:.5;
 }
+.cta-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+#cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--body);
+  font-size: clamp(13px, 1.4vw, 15px);
+  letter-spacing: .18em;
+  color: #07070a;
+  background-color: #f5a623;
+  border: 0;
+  border-radius: 0.5em;
+  font-weight: 600;
+  padding: 0.375em 1em;
+  text-decoration: none;
+  text-shadow: 0 0.0625em 0 #ffd080;
+  box-shadow:
+    inset 0 0.0625em 0 0 #ffc14d,
+    0 0.0625em 0 0 #d4891a,
+    0 0.125em 0 0 #c97e14,
+    0 0.25em 0 0 #b86e0e,
+    0 0.3125em 0 0 #a86209,
+    0 0.375em 0 0 #9a5806,
+    0 0.425em 0 0 #7a4103,
+    0 0.425em 0.5em 0 #8a4d05;
+  transition: 0.15s ease;
+  cursor: none;
+}
+#cta-btn:hover {
+  background-color: #ffba47;
+  box-shadow:
+    inset 0 0.0625em 0 0 #ffc14d,
+    0 0.0625em 0 0 #d4891a,
+    0 0.125em 0 0 #c97e14,
+    0 0.25em 0 0 #b86e0e,
+    0 0.3125em 0 0 #a86209,
+    0 0.375em 0 0 #9a5806,
+    0 0.425em 0 0 #7a4103,
+    0 0.425em 0.5em 0 #8a4d05,
+    0 0 18px 4px rgba(245,166,35,0.55),
+    0 0 40px 8px rgba(245,166,35,0.2);
+}
+#cta-btn:active {
+  translate: 0 0.225em;
+  box-shadow:
+    inset 0 0.03em 0 0 #ffc14d,
+    0 0.03em 0 0 #d4891a,
+    0 0.0625em 0 0 #c97e14,
+    0 0.125em 0 0 #b86e0e,
+    0 0.125em 0 0 #a86209,
+    0 0.2em 0 0 #9a5806,
+    0 0.225em 0 0 #7a4103,
+    0 0.225em 0.375em 0 #8a4d05;
+}
+#cta-arrow {
+  display: inline-block;
+  animation: cta-bounce 1.8s ease-in-out infinite;
+}
+@keyframes cta-bounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(5px); }
+}
 
+/* FREELANCE ARROW */
+#freelance-arrow {
+  display: inline-block;
+  animation: arrow-pulse 1.6s ease-in-out infinite;
+  transform-origin: right center;
+}
+@keyframes arrow-pulse {
+  0%, 100% { transform: translateX(0) scaleX(1); opacity: 0.7; }
+  50%       { transform: translateX(4px) scaleX(1.15); opacity: 1; }
+}
 #theme-toggle {
   position: fixed;
-  bottom: 4.2%;   /* was top */
-  right: 2.5%;     /* was right */
+  top: 2.5%;
+  right: 1.5%;
   z-index: 999999;
   font-family: var(--body);
   font-size: 14px;
@@ -101,7 +176,13 @@ body::after {
 #theme-toggle .box {display: block; font-size: 12px; margin: 4px 0; color: var(--amber); text-shadow: 0 0 10px rgba(245,166,35,.5);}
 #theme-toggle .icon { display: block; font-size: 10px; margin: 4px 0; color: var(--amber); text-shadow: 0 0 10px rgba(245,166,35,.5); }
 
-
+@media (max-width: 700px) {
+  #theme-toggle {
+    top: 12px;
+    right: 12px;
+    font-size: 12px;
+  }
+}
 #hero-wrapper {
   margin: 16px 16px 16px 16px;
   border-radius: var(--panel-radius);
@@ -156,22 +237,34 @@ html[data-theme="light"] {
   overflow: visible;
   width: 100%;
 }
+
+/* FIX 3: Lemony glow — split "Lemony" from "Studios" and apply stronger glow */
 .hero-name {
   font-family: var(--display);
   font-size: clamp(44px, 5vw, 120px);
   font-weight: 400;
   line-height: 1.1;
   letter-spacing: 0.02em;
-  color: var(--hi);
+  color: var(--amber);
   opacity: 0;
   animation: up .9s cubic-bezier(.16,1,.3,1) .5s forwards;
   display: inline-block;
   padding: 0.08em 0.1em;
   overflow: visible;
 }
-.hero-name .dim { color: var(--ink-dim); display: block; }
+.hero-name .glow {
+  color: var(--amber);
+  text-shadow:
+    0 0 12px rgba(245,166,35,0.35),
+    0 0 30px rgba(245,166,35,0.2),
+    0 0 60px rgba(245,166,35,0.05),
+    0 0 100px rgba(255,140,0,0.25);
+}
+.hero-name .dim { color: var(--hi); display: block; }
 .hero-foot {
   display: flex;
+  width: 100%; 
+  text-align: center;
   justify-content: center;
   align-items: center;
   gap: 48px;
@@ -219,7 +312,6 @@ html[data-theme="light"] {
 #scroll-content {
   position: relative;
   z-index: 20;
-  margin-top: -100svh;
   padding-top: 100svh;
   padding-left: 16px;
   padding-right: 16px;
@@ -238,19 +330,17 @@ html[data-theme="light"] {
   box-shadow: 0 0 0 1px rgba(245,166,35,0.07),0 -24px 64px rgba(0,0,0,0.55),inset 0 1px 0 rgba(245,166,35,0.10);
   overflow: hidden;
 }
-.sec { padding:80px 36px; }
+.sec { padding: 35px 36px; }
 .sec-label {
-  
   font-family: var(--body);
-  font-size: 14px;
+  font-size: clamp(11px, 2vw, 14px);
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--ink-dim);
-  margin-bottom: 52px;
+  margin-bottom: 35px;
   display: flex;
   align-items: center;
 }
-
 .sec-label::after {
   content: '';
   flex: 1;
@@ -288,10 +378,33 @@ html[data-theme="light"] {
 .proj-tags { display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px; }
 .proj-tag { font-family:var(--body);font-size:clamp(11px,1vw,20px);letter-spacing:.18em;border:1px solid rgba(245,166,35,0.00);color:rgb(210,160,77);padding:4px 12px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;background:transparent;box-shadow:inset 0 0 0px rgba(245,166,35,1.00), 0 0 22px rgba(245,166,35,0.65); }
 .proj-tag:hover { border-color:rgba(245,166,35,0.7);color:#f5a623; }
-.proj-gh { display:inline-flex;gap:2px;align-items:center;font-family:var(--body);font-size:14px;letter-spacing:.1em;color:var(--hi);text-decoration:none;border-bottom:1px solid var(--ink-faint);padding-bottom:2px;transition:gap .2s,border-color .2s; }
-.proj-gh:hover { gap:3px;border-color:var(--hi); }
-.proj-gh svg { width:11px;height:11px; }
-
+.btn-github {
+  cursor: none;
+  display: inline-flex;
+  gap: 0.5rem;
+  border: none;
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border-radius: 100px;
+  font-weight: 800;
+  place-content: center;
+  padding: 0.75rem 1rem;
+  font-size: 0.825rem;
+  line-height: 1rem;
+  background-color: rgba(0, 0, 0, 0.4);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.04),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  color: #fff;
+  text-decoration: none;
+}
+.btn-github:hover {
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.08),
+    inset 0 0 0 1px rgba(252, 232, 3, 0.08);
+  color: var(--amber);
+  transform: translate(0, -0.25rem);
+  background-color: rgba(0, 0, 0, 0.5);
+}
 /* ABOUT */
 .about-grid {
   display: grid;
@@ -299,16 +412,77 @@ html[data-theme="light"] {
   gap: 72px;
   align-items: start;
 }
-.about-bio { font-family:var(--body);font-size:clamp(14px,1.8vw,20px);line-height:1.65;color:var(--warm); }
+.about-bio { font-family:var(--body);font-size:clamp(12px,1.8vw,17.5px);line-height:1.65;color:var(--warm); }
 .about-bio em { color:var(--hi);font-style:normal; }
 .about-bio p+p { margin-top:1.2em; }
 .skill-group { margin-bottom:30px; }
 .skill-group-label { display:block;font-family:var(--body);font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:10px; }
 .chips { display:flex;flex-wrap:wrap;gap:8px; }
-.chip { font-family:var(--body);font-size:clamp(11px,1vw,20px);letter-spacing:.08em;border:1px solid rgba(245,166,35,0.00);color:rgb(210,160,77);padding:5px 14px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;background:transparent;box-shadow:inset 0 0 0px rgba(245,166,35,1.00), 0 0 22px rgba(245,166,35,0.65);transition:border-color .2s,color .2s; }
+.chip { font-family:var(--body);font-size:clamp(8px,1vw,12px);letter-spacing:.08em;border:1px solid rgba(245,166,35,0.00);color:rgb(210,160,77);padding:5px 14px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;background:transparent;box-shadow:inset 0 0 0px rgba(245,166,35,1.00), 0 0 22px rgba(245,166,35,0.65);transition:border-color .2s,color .2s; }
 .chip:hover { border-color:rgba(245,166,35,0.7);color:#f5a623; }
+
+/* RESUME BUTTON in about section */
+.resume-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 14%;
+}
+.resume-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-family: var(--body);
+  font-size: clamp(10px, 1.2vw, 16px);
+  letter-spacing: .18em;
+  color: #07070a;
+  background-color: #f5a623;
+  border: 0;
+  border-radius: 0.5em;
+  font-weight: 600;
+  padding: 0.3em 0.85em;
+  text-decoration: none;
+  text-shadow: 0 0.0625em 0 #ffd080;
+  box-shadow:
+    inset 0 0.0625em 0 0 #ffc14d,
+    0 0.0625em 0 0 #d4891a,
+    0 0.125em 0 0 #c97e14,
+    0 0.25em 0 0 #b86e0e,
+    0 0.3125em 0 0 #a86209,
+    0 0.375em 0 0 #9a5806,
+    0 0.35em 0 0 #7a4103,
+    0 0.35em 0.4em 0 #8a4d05;
+  transition: 0.15s ease;
+  cursor: none;
+}
+.resume-btn:hover {
+  background-color: #ffba47;
+  box-shadow:
+    inset 0 0.0625em 0 0 #ffc14d,
+    0 0.0625em 0 0 #d4891a,
+    0 0.125em 0 0 #c97e14,
+    0 0.25em 0 0 #b86e0e,
+    0 0.3125em 0 0 #a86209,
+    0 0.375em 0 0 #9a5806,
+    0 0.35em 0 0 #7a4103,
+    0 0.35em 0.4em 0 #8a4d05,
+    0 0 14px 3px rgba(245,166,35,0.5),
+    0 0 30px 6px rgba(245,166,35,0.18);
+}
+.resume-btn:active {
+  translate: 0 0.225em;
+  box-shadow:
+    inset 0 0.03em 0 0 #ffc14d,
+    0 0.03em 0 0 #d4891a,
+    0 0.0625em 0 0 #c97e14,
+    0 0.125em 0 0 #b86e0e,
+    0 0.125em 0 0 #a86209,
+    0 0.2em 0 0 #9a5806,
+    0 0.2em 0 0 #7a4103,
+    0 0.2em 0.3em 0 #8a4d05;
+}
 /* CONTACT */
-.contact-hed { font-family:var(--display);font-size:clamp(14px,3.5vw,37px);font-weight:400;line-height:1.0;letter-spacing:.02em;color:var(--hi);margin-bottom:64px; }
+.contact-hed { font-family:var(--display);font-size:clamp(14px,3.5vw,37px);font-weight:400;line-height:1.0;letter-spacing:.02em;color:var(--hi);margin-bottom:15px; }
 .contact-hed a { color:inherit;text-decoration:none;border-bottom:2px solid var(--ink-faint);padding-bottom:6px;transition:border-color .3s; }
 .contact-hed a:hover { border-color:var(--hi); }
 .contact-grid { display:grid;grid-template-columns:repeat(5,1fr);gap:28px;border-top:1px solid var(--line);padding-top:48px; }
@@ -353,33 +527,61 @@ footer a:hover { color:var(--ink-dim); }
   .contact-hed{ font-size:clamp(28px,10vw,52px); }
 }
 @keyframes up { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:none;} }
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); opacity: .5; }
+  50%       { transform: translateX(-50%) translateY(6px); opacity: 1; }
+}
 </style>
 </head>
 <body>
 
+
+<div class="cursor" id="cur"><div class="cursor-dot"></div></div>
+<div class="follower" id="fol"><div class="follower-circle" id="fol-circle"></div></div>
+
+<div id="hero-wrapper">
+  <section id="galaxy-hero">
+<!-- FIX 1: Changed href from "#projects" to "#contact" -->
+
+    <div id="ascii-sky"><pre id="render"></pre></div>
+<a href="#contact" style="
+  position:absolute;
+  top:4%;
+  left:2%;
+  font-size: clamp(11px, 2vw, 14px);
+  letter-spacing:.1em;
+  color: var(--hi);
+  font-family:var(--body);
+  text-decoration:none;
+
+" id="freelance-link"><span id="freelance-arrow">↳</span> Open for freelance &amp; internships
+</a>
 <div id="theme-wipe"></div>
 <div id="theme-toggle" aria-label="Toggle theme">
   <span class="box">+──+</span>
   <span class="icon">|☾|</span>
   <span class="box">+──+</span>
 </div>
-<div class="cursor" id="cur"><div class="cursor-dot"></div></div>
-<div class="follower" id="fol"><div class="follower-circle" id="fol-circle"></div></div>
-
-<div id="hero-wrapper">
-  <section id="galaxy-hero">
-    <div id="ascii-sky"><pre id="render"></pre></div>
-    <div id="hero-content">
-      <h1 class="hero-name">Lemony<span class="dim">Studios</span></h1>
-      <div class="hero-foot">
-        <p class="hero-desc">{Mechanical Engineer}<br>Open-Source Developer<br>[Artist]</p>
-        <div class="hero-meta">
-          <a href="https://instagram.com/lemony__studios" target="_blank">@lemony__studios</a><br>
-             <a href="https://github.com/LukeBuonanno" target="_blank">&gt;GitHub&lt;</a><br>
-                    <a href="https://lemonystudios.onthewifi.com">Luke Buonanno</a>
-        </div>
+<div id="hero-content">
+  <!-- FIX 3: "Lemony" wrapped in .glow span for amber text-shadow glow -->
+  <h1 class="hero-name"><span class="glow">Lemony</span><span class="dim">Studios</span></h1>
+  <div class="hero-foot">
+    <p class="hero-desc">
+      Mechanical Engineering Student<br>
+      Open-Source Developer <br>
+      Comprehensive Product Design
+    </p>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+   <a href="#projects" id="cta-btn" style="text-decoration:none;">
+ 
+  <span>Get project files</span>
+</a>
       </div>
     </div>
+  </div>
+  <div style="position:absolute;bottom:-20%;left:50%;transform:translateX(-50%);font-family:var(--body);  font-size: clamp(8px, 1.35vw, 22px);letter-spacing:.25em;text-transform:uppercase;color:var(--ink);animation:bounce 2.2s ease-in-out infinite;">↓</div>
+</div>
   </section>
 </div>
 
@@ -397,14 +599,14 @@ footer a:hover { color:var(--ink-dim); }
     <div class="sec-label">About</div>
     <div class="about-grid">
       <div class="about-bio reveal">
-        <p>I'm a <em>mechanical engineering student</em> who sometimes likes to
-mess around with hobbies some might consider art. I have a passion for <em>good and unique product
-        design</em> that is intentional.</p> </p> Currently I have been focusing on building my brand and expanding my experience. 
-        For me that looks like designing this website and creating a social media presense. </p> 
-        <p>When I'm not studying or building, I play bass, guitar, and piano (sometimes
-        with my band <a href="https://instagram.com/HazelBand.SWB" target="_blank" ><em>Hazel).</em></a></p>
+        <p>I have a passion for <em>unique and personal design</em>.  
+        I have been creating software and product solutions for five years.</p> </p> Currently I have been focusing on building my brand and expanding my experience by creating multiple open source designs. 
+        </p><p>From a young age I have enjoyed learning how systems work. I started by coding my first website back in  </p> 
+        <p>When I'm not studying or prototyping, I make music (sometimes
+        with my band <a href="https://instagram.com/HazelBand.SWB" target="_blank" ><em>Hazel</em></a>). 
+        I also enjoy lifting, talking politics, and ultimate frisbee.</p>
       </div>
-      <div class="reveal">
+         <div class="reveal">
         <div class="skill-group">
           <span class="skill-group-label">Languages</span>
           <div class="chips">
@@ -418,7 +620,7 @@ mess around with hobbies some might consider art. I have a passion for <em>good 
           <span class="skill-group-label">Frameworks &amp; Tools</span>
           <div class="chips">
             <span class="chip">Node.js</span><span class="chip">Discord.js</span>
-            <span class="chip">Discord.py</span><span class="chip">ESP32</span><span class="chip">Unreal Engine 5</span><span class="chip">Autodesk Inventor</span>
+            <span class="chip">Discord.py</span><span class="chip">ESP32</span><span class="chip">Unreal &nbsp;Engine &nbsp;5</span><span class="chip">Autodesk &nbsp;Inventor</span>
           </div>
         </div>
         <div class="skill-group">
@@ -429,26 +631,38 @@ mess around with hobbies some might consider art. I have a passion for <em>good 
             <span class="chip">Embedded&nbsp;Systems</span>
             <span class="chip">Product&nbsp;Design</span>
             <span class="chip">Firmware</span>
-            <span class="chip">Game Design</span>
+            <span class="chip">Game &nbsp;Design</span>
             <span class="chip">AI&nbsp;/&nbsp;Robotics</span>
              <span class="chip">CAD</span>
           </div>
         </div>
+        <!-- RESUME BUTTON — centered below chips -->
+<div class="resume-wrap">
+  <a href="./Luke_Buonanno's_Resume.pdf" class="resume-btn" target="_blank">
+    Resume
+  </a>
+</div>
       </div>
     </div>
   </section>
 
   <section id="contact" class="sec glass-panel">
-    <div class="sec-label">Contact</div>
-    <div class="contact-hed reveal"><a href="mailto:eccentricityyy@gmail.com">Do <em>you</em> want a product designed?</a></div>
- 
-    <div class="contact-grid reveal">
-      <div><span class="cg-label">Email</span><a class="cg-val" href="mailto:eccentricityyy@gmail.com">eccentricityyy<br>@gmail.com</a></div>
-      <div><span class="cg-label">GitHub</span><a class="cg-val" href="https://github.com/LukeBuonanno" target="_blank" rel="noopener">@LukeBuonanno</a></div>
-      <div><span class="cg-label">LinkedIn</span><a class="cg-val" href="https://www.linkedin.com/in/luke-buonanno-5bb6a7354/" target="_blank" rel="noopener">Luke Buonanno</a></div>
-      <div><span class="cg-label">Instagram</span><a class="cg-val" href="https://instagram.com/lemony__studios" target="_blank" rel="noopener">@lemony__studios</a></div>
-      <div><span class="cg-label">Music</span><a class="cg-val" href="https://instagram.com/HazelBand.SWB" target="_blank" rel="noopener">@HazelBand.SWB</a></div>
-    </div>
+  <div class="sec-label">Contact</div>
+  <div class="contact-hed reveal">Get in touch</div>
+  <p class="about-bio reveal" style="max-width:100%;margin-bottom:28px;">
+    I'm a <em>Mechanical Engineering student at King's College</em>, building real hardware and
+    software projects in my spare time. I'm actively looking for <em>freelance work and internship
+    opportunities</em>. If you need a product designed or a prototype built, I'd love to hear from you.
+  </p>
+  
+  <div class="contact-grid reveal">
+    <div><span class="cg-label">Email</span><a class="cg-val" href="mailto:eccentricityyy@gmail.com">eccentricityyy<br>@gmail.com</a></div>
+    <div><span class="cg-label">GitHub</span><a class="cg-val" href="https://github.com/LukeBuonanno" target="_blank" rel="noopener">@LukeBuonanno</a></div>
+    <div><span class="cg-label">LinkedIn</span><a class="cg-val" href="https://www.linkedin.com/in/luke-buonanno-5bb6a7354/" target="_blank" rel="noopener">Luke Buonanno</a></div>
+    <div><span class="cg-label">Instagram</span><a class="cg-val" href="https://instagram.com/lemony__studios" target="_blank" rel="noopener">@lemony__studios</a></div>
+    <div><span class="cg-label">Music</span><a class="cg-val" href="https://instagram.com/HazelBand.SWB" target="_blank" rel="noopener">@HazelBand.SWB</a></div>
+  </div>
+
   </section>
 
 <footer class="glass-panel" style="display: flex; align-items: center; justify-content: calc(center);">
@@ -459,7 +673,6 @@ mess around with hobbies some might consider art. I have a passion for <em>good 
 <script>
 /* ════════════════════════════════════════════════════════════
    CURSOR
-   Optimized: skip DOM write when delta < 0.1px
 ════════════════════════════════════════════════════════════ */
 (function(){
   const cur=document.getElementById('cur'),fol=document.getElementById('fol'),fc=document.getElementById('fol-circle');
@@ -503,8 +716,6 @@ mess around with hobbies some might consider art. I have a passion for <em>good 
 
 /* ════════════════════════════════════════════════════════════
    GALAXY
-   Optimized: measure charRatio once, build pre string directly,
-   avoid repeated array allocations per render
 ════════════════════════════════════════════════════════════ */
 (function(){
   var pre=document.getElementById('render');
@@ -538,13 +749,11 @@ mess around with hobbies some might consider art. I have a passion for <em>good 
     var stars=Math.round(cols*0.5);
     var trails=Math.round(cols*0.05);
 
-    /* build directly into a 2D char array then join once */
     var field=[];
     for(var y=0;y<rows;y++){field[y]=new Array(cols).fill(' ');}
     for(var i=0;i<trails;i++)buildTrail(field);
     for(var i=0;i<stars;i++)buildStar(field);
 
-    /* pre-render to string — only done on init/resize */
     var out=[];
     for(var y=0;y<rows;y++)out.push(field[y].join(''));
     pre.textContent=out.join('\n');
@@ -593,8 +802,6 @@ mess around with hobbies some might consider art. I have a passion for <em>good 
 
 /* ════════════════════════════════════════════════════════════
    ASCII MORPH
-   Optimized: mutate array in-place instead of slice() per crush step;
-   single dirty-check avoids redundant renders
 ════════════════════════════════════════════════════════════ */
 (function(){
   const el=document.getElementById('morph-pre');
@@ -632,7 +839,6 @@ mess around with hobbies some might consider art. I have a passion for <em>good 
     }
   }
 
-  /* mutate in-place, return whether any non-space chars remain */
   function getMorphed(data){
     let found=false;
     for(let i=0;i<data.length;i++){
@@ -650,16 +856,13 @@ mess around with hobbies some might consider art. I have a passion for <em>good 
 
   function morph(data){
     clearTimeout(mTimer);
-    /* collapse current state */
     const dec=[];
-    let clone=rData.map(r=>r); /* shallow copy of strings (immutable) */
+    let clone=rData.map(r=>r);
     for(let i=0;i<120;i++){
-      const snap=clone.map(r=>r); /* snapshot before mutation */
       if(!getMorphed(clone))break;
       dec.push(clone.map(r=>r));
-      clone=clone; /* already mutated in place — next iter uses result */
+      clone=clone;
     }
-    /* build up target state in reverse */
     let s2=sq(data.slice());
     const con=[s2.map(r=>r)];
     for(let i=0;i<120;i++){
@@ -808,7 +1011,7 @@ mess around with hobbies some might consider art. I have a passion for <em>good 
   "    |  |  ><  |  |          ,  |   ><   |  ,     | \\__/ |",
   "    \\  \\      /  /         . \\  \\      /  / .              _",
   "   _    '.__.'    _\\(O)/_   \\_'--`(  )'--'_/     __     _\\(_)/_",
-  "_\\( )/_            /(_)\\      .--'/()\\'--.    | /  \\ |   /(O)\\",
+  "_\\( )/_            /(_)\\      .--'/()\\'--.    | /  \\ | /(O)\\",
   " /(O)\\  //  \\\\         _     /  /` '' `\\  \\  \\_\\\\  //_/",
   "       _\\\\()//_     _\\(_)/_    |        |      //()\\\\ ",
   " jgs  / //  \\\\ \\     /(o)\\      \\      /       \\\\  //",
@@ -1273,18 +1476,15 @@ mess around with hobbies some might consider art. I have a passion for <em>good 
 
 /* ════════════════════════════════════════════════════════════
    TEXT WAVE SCRAMBLE
-   Optimized:
-   - rects stored as flat Float32Arrays (cache-friendly)
-   - single getBoundingClientRect pass per update, not per frame
-   - wave check exits early when no active waves
-   - one shared IntersectionObserver instead of per-span
+   FIX 2: Removed '#theme-toggle' and '#freelance-link' from TARGETS
 ════════════════════════════════════════════════════════════ */
 (function(){
-  const WAVE_SPEED=700,WAVE_DUR=1000,WAVE_BAND=300,WAVE_TRAIL=2.2,
+  const WAVE_SPEED=800,WAVE_DUR=700,WAVE_BAND=300,WAVE_TRAIL=2.2,
         WAVE_SHRINK=2.5,WAVE_NOISE=4,WAVE_DENSITY=1.2,
         WAVE_MIN_DIST=140,CHAR_SPEED=70;
   const PALETTE='.,\u00b7-\u2500~+:;=*\u03c0\u2510\u250c\u2518\u2554\u255d\u2551\u255a!?1742&35$690#@8$\u2580\u2584\u25a0\u2591\u2592\u2593';
-  const TARGETS=['.hero-name','.hero-desc','.hero-meta','.sec-label','.proj-name','.proj-liner','.proj-desc','.proj-tag','.proj-gh','.about-bio','.skill-group-label','.chip','.contact-hed','.cg-label','.cg-val','footer'].join(',');
+  // FIX 2: '#theme-toggle' and '#freelance-link' removed from targets
+  const TARGETS=['.hero-name','.hero-desc','.hero-meta','.sec-label','.proj-name','.proj-liner','.proj-desc','.proj-tag','.proj-gh','.about-bio','.skill-group-label','.chip','.contact-hed','.cg-label','.cg-val','footer','.resume-btn'].join(',');
 
   function hash(x,y,z){const n=Math.sin(x*127.1+y*311.7+z*74.7)*43758.5453;return n-Math.floor(n);}
   function ss(t){return t*t*(3-2*t);}
@@ -1309,7 +1509,6 @@ mess around with hobbies some might consider art. I have a passion for <em>good 
   }
 
   let spans=[];
-  /* flat typed arrays for rect cache — much faster iteration */
   let rcx,rcy;
 
   const SKIP=new Set(['SCRIPT','STYLE','NOSCRIPT','SVG','PATH','CANVAS','PRE']);
@@ -1364,7 +1563,6 @@ mess around with hobbies some might consider art. I have a passion for <em>good 
     const now=performance.now();
     waves=waves.filter(w=>now-w.t<WAVE_DUR);
     if(!waves.length){
-      /* restore all mutated spans at once */
       const n=spans.length;
       for(let i=0;i<n;i++){const s=spans[i];if(s.dataset.sc){delete s.dataset.sc;s.textContent=s.dataset.o;}}
       running=false;return;
@@ -1390,8 +1588,7 @@ mess around with hobbies some might consider art. I have a passion for <em>good 
     buildRects();
   }
 
-function boot(){
-    if(window.matchMedia('(hover: none)').matches) return;
+  function boot(){
     setTimeout(()=>{
       initWrap();
       new MutationObserver(()=>{
@@ -1413,7 +1610,7 @@ const PROJECTS=[
   {name:"Charm",liner:"An ESP32 backpack charm.",desc:"A hardware charm that clips onto your backpack. A bag charm with customizable animations, info, and games. A compact ESP32-S3-powered device featuring a 0.96 in 80x160 RGB TFT display, onboard battery, and a single-button interface. It supports animations, a clock, weather display, and simple apps.",tags:["ESP32","C++","Hardware","Embedded"],github:"https://github.com/LukeBuonanno/Charm",image:"./charm.jpeg"},
   {name:"Spot",liner:"A desk Spotify playback controller",desc:"Physical hardware controller for Spotify designed to sit on your desk. ",tags:["ESP32","Spotify API","C++","Product Design"],github:"https://github.com/LukeBuonanno/Spot",image:"./spot.JPG"},
   {name:"Deck",liner:"An e-ink wristwatch based on the Seiko EPD",desc:"ESP32-powered watch with an e-ink display. Minimal, readable in sunlight, long battery life.",tags:["ESP32","E-Ink","C++","Wearable"],github:"https://github.com/LukeBuonanno/Deck",image:"./deck.jpg"},
-  {name:"You're So Forgetful",liner:"A Modern Java ASCII choose your adventure",desc:"A text-based Java game built entirely in ASCII. ",tags:["Java","ASCII","Game Design","CLI"],github:"https://lukebuonanno.github.io/you-resoforgetful/",image:"./forgetful.GIF"},
+  {name:"You're So Forgetful",liner:"A Modern Java ASCII choose your own adventure",desc:"A text-based Java game built entirely in ASCII. ",tags:["Java","ASCII","Game Design","CLI"],github:"https://lukebuonanno.github.io/you-resoforgetful/",image:"./forgetful.GIF"},
   {name:"Bit",liner:"An embodied AI agent",desc:"Bit has not fully taken shape yet, currently the software is being written to be able to wire up an action toolbox to the llm.",tags:["Raspberry Pi 5","AI","Python","Robotics","Embedded"],github:"https://github.com/LukeBuonanno/Bit",image:"bit.jpg"},
 ];
 
@@ -1438,10 +1635,10 @@ PROJECTS.forEach((p,i)=>{
         <div>
           <p class="proj-desc">${p.desc}</p>
           <div class="proj-tags">${p.tags.map(t=>`<span class="proj-tag">${t}</span>`).join('')}</div>
-          <a class="proj-gh" href="${p.github}" target="_blank" rel="noopener">
-            View &nbsp;on &nbsp;GitHub &nbsp;
-            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          </a>
+         <a class="btn-github" href="${p.github}" target="_blank" rel="noopener">
+  <svg viewBox="0 0 16 16" fill="currentColor" style="width:14px;height:14px"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+  View on GitHub
+</a>
         </div>
       </div></div>
     </div>`;
