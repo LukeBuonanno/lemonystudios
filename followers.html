@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Supporters — Lemony Studios</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Sixtyfour';
+      src: url('./Sixtyfour-400.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    :root {
+      --bg: #07070a;
+      --amber: #f5a623;
+      --hi: #e6ddc0;
+      --ink-dim: #64625c;
+      --body: 'Courier Prime', 'Courier New', monospace;
+      --display: 'Sixtyfour', monospace;
+      --glass-border: rgba(245,166,35,0.25);
+    }
+
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: var(--bg);
+      font-family: var(--body);
+    }
+
+    canvas {
+      display: block;
+      position: relative;
+      z-index: 2;
+    }
+
+    #supporters-title {
+      position: fixed;
+      top: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--display);
+      font-size: clamp(28px, 5vw, 64px);
+      font-weight: 400;
+      color: var(--amber);
+      text-shadow:
+        0 0 12px rgba(245,166,35,0.35),
+        0 0 30px rgba(245,166,35,0.2),
+        0 0 60px rgba(245,166,35,0.05);
+      letter-spacing: 0.02em;
+      z-index: 10;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      backdrop-filter: blur(4px);
+      background: rgba(0,0,0,0.25);
+      opacity: 0;
+      transition: 0.25s;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .overlay.active { opacity: 1; }
+
+    .search {
+      position: fixed;
+      top: 65%;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 18px;
+      border-radius: 20px;
+      border: 1px solid var(--glass-border);
+      outline: none;
+      font-size: 16px;
+      font-family: var(--body);
+      width: 260px;
+      z-index: 3;
+      background: rgba(13,13,18,0.9);
+      color: var(--hi);
+    }
+    .search::placeholder { color: var(--ink-dim); }
+
+    #go-back {
+      position: fixed;
+      top: calc(65% + 60px);
+      left: 50%;
+      transform: translateX(-50%);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--body);
+      font-size: 14px;
+      letter-spacing: .18em;
+      color: #07070a;
+      background-color: var(--amber);
+      border: 0;
+      border-radius: 0.5em;
+      font-weight: 600;
+      padding: 0.375em 1em;
+      text-decoration: none;
+      text-shadow: 0 0.0625em 0 #ffd080;
+      box-shadow:
+        inset 0 0.0625em 0 0 #ffc14d,
+        0 0.0625em 0 0 #d4891a,
+        0 0.125em 0 0 #c97e14,
+        0 0.25em 0 0 #b86e0e,
+        0 0.3125em 0 0 #a86209,
+        0 0.375em 0 0 #9a5806,
+        0 0.425em 0 0 #7a4103,
+        0 0.425em 0.5em 0 #8a4d05;
+      transition: 0.15s ease;
+      cursor: pointer;
+      z-index: 3;
+    }
+    #go-back:hover {
+      background-color: #ffba47;
+      box-shadow:
+        inset 0 0.0625em 0 0 #ffc14d,
+        0 0.0625em 0 0 #d4891a,
+        0 0.125em 0 0 #c97e14,
+        0 0.25em 0 0 #b86e0e,
+        0 0.3125em 0 0 #a86209,
+        0 0.375em 0 0 #9a5806,
+        0 0.425em 0 0 #7a4103,
+        0 0.425em 0.5em 0 #8a4d05,
+        0 0 18px 4px rgba(245,166,35,0.55),
+        0 0 40px 8px rgba(245,166,35,0.2);
+    }
+    #go-back:active { translate: 0 0.225em; }
+
+    .card {
+      position: fixed;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      padding: 10px 14px;
+      background: rgba(13,13,18,0.95);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      transform: scale(0);
+      transform-origin: top left;
+      transition: transform 0.15s;
+      z-index: 4;
+      pointer-events: none;
+    }
+    .card-name {
+      font-family: var(--body);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--hi);
+      white-space: nowrap;
+    }
+    .card-time {
+      font-family: var(--body);
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--ink-dim);
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+<div id="supporters-title">Supporters</div>
+<canvas id="c"></canvas>
+<div class="overlay" id="overlay"></div>
+<input class="search" id="search" placeholder="Search supporters...">
+<a href="https://lemonystudios.onthewifi.com" id="go-back">&#8592; Go back</a>
+
+<div class="card" id="card">
+  <span class="card-name" id="cardName"></span>
+  <span class="card-time" id="cardTime"></span>
+</div>
+
+<script>
+const canvas = document.getElementById("c");
+const ctx = canvas.getContext("2d");
+const overlay = document.getElementById("overlay");
+const search = document.getElementById("search");
+const card = document.getElementById("card");
+const cardName = document.getElementById("cardName");
+const cardTime = document.getElementById("cardTime");
+
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+window.addEventListener('resize', () => { canvas.width = innerWidth; canvas.height = innerHeight; });
+
+const HEART_SIZE = 11.5;
+
+const followers = [
+  {name:"symmtrys",time:"Apr 29, 2026 9:22 am"},
+  {name:"omi___5007",time:"Apr 29, 2026 6:10 am"},
+  {name:"marwenissaoui",time:"Apr 29, 2026 2:10 am"},
+  {name:"makaremart",time:"Apr 29, 2026 12:41 am"},
+  {name:"martian_botanist",time:"Apr 28, 2026 6:01 pm"},
+  {name:"handsomeandphilthy",time:"Apr 28, 2026 5:40 pm"},
+  {name:"skinderholm",time:"Apr 28, 2026 7:19 am"},
+  {name:"foilxviii",time:"Apr 27, 2026 6:04 pm"},
+  {name:"danpayne.25",time:"Apr 27, 2026 3:51 pm"},
+  {name:"bunker9ine",time:"Apr 27, 2026 3:23 pm"},
+  {name:"vierinsky2",time:"Apr 27, 2026 1:55 pm"},
+  {name:"amarcec",time:"Apr 27, 2026 7:43 am"},
+  {name:"jhovapple",time:"Apr 27, 2026 5:55 am"},
+  {name:"who.is.malik",time:"Apr 27, 2026 2:58 am"},
+  {name:"t0mb0b",time:"Apr 26, 2026 11:23 pm"},
+  {name:"henrique.duarte00",time:"Apr 26, 2026 6:17 pm"},
+  {name:"bouhafs_insalah",time:"Apr 26, 2026 2:09 pm"},
+  {name:"psk55555",time:"Apr 26, 2026 1:28 pm"},
+  {name:"just_another_developer_",time:"Apr 26, 2026 12:36 pm"},
+  {name:"oliverwhysall",time:"Apr 26, 2026 8:17 am"},
+  {name:"type_charlie",time:"Apr 26, 2026 4:55 am"},
+  {name:"ganbensie",time:"Apr 26, 2026 3:24 am"},
+  {name:"th353nt13man",time:"Apr 26, 2026 12:59 am"},
+  {name:"lark.nm_",time:"Apr 25, 2026 3:39 pm"},
+  {name:"michaeldevaney1",time:"Apr 25, 2026 1:40 pm"},
+  {name:"abrochford",time:"Apr 25, 2026 6:33 am"},
+  {name:"asternaut.photographer",time:"Apr 24, 2026 10:23 pm"},
+  {name:"val_car_",time:"Apr 24, 2026 10:05 pm"},
+  {name:"asthralux",time:"Apr 24, 2026 9:21 pm"},
+  {name:"iamsamuelmyoung",time:"Apr 24, 2026 7:47 pm"},
+  {name:"l2kas_27",time:"Apr 24, 2026 7:24 pm"},
+  {name:"alexa_brown64",time:"Apr 24, 2026 7:23 pm"},
+  {name:"gutierrezsykes",time:"Apr 24, 2026 6:56 pm"},
+  {name:"mario.lopez_",time:"Apr 24, 2026 2:47 pm"},
+  {name:"steveisfunny",time:"Apr 24, 2026 10:44 am"},
+  {name:"amrit.ldn",time:"Apr 24, 2026 12:44 am"},
+  {name:"derryswop",time:"Apr 22, 2026 7:16 am"},
+  {name:"kckmdo",time:"Apr 21, 2026 3:00 pm"},
+  {name:"geilaard",time:"Apr 21, 2026 1:36 pm"},
+  {name:"sonnynormansell06",time:"Apr 21, 2026 6:15 am"},
+  {name:"kahaan.ho.sapan",time:"Apr 21, 2026 3:31 am"},
+  {name:"the_oscar_pew",time:"Apr 21, 2026 2:07 am"},
+  {name:"shin__kaminari",time:"Apr 21, 2026 12:58 am"},
+  {name:"jorgelvl5210",time:"Apr 20, 2026 8:34 pm"},
+  {name:"therevolutionaryguy",time:"Apr 20, 2026 6:21 pm"},
+  {name:"hermit1983",time:"Apr 20, 2026 12:31 pm"},
+  {name:"haydn_fish",time:"Apr 20, 2026 10:44 am"},
+  {name:"sheldondinosaurio",time:"Apr 20, 2026 9:10 am"},
+  {name:"batwei",time:"Apr 20, 2026 8:34 am"},
+  {name:"sosaxmari",time:"Apr 20, 2026 6:43 am"},
+  {name:"v1rtual_s0ul",time:"Apr 20, 2026 3:52 am"},
+  {name:"pauwma",time:"Apr 19, 2026 11:55 pm"},
+  {name:"xoubanet",time:"Apr 19, 2026 9:23 pm"},
+  {name:"amii_3d",time:"Apr 19, 2026 9:00 pm"},
+  {name:"ozbornenation",time:"Apr 19, 2026 7:08 pm"},
+  {name:"imbladezzz",time:"Apr 19, 2026 7:03 pm"},
+  {name:"nellys_1495",time:"Apr 19, 2026 5:19 pm"},
+  {name:"dennisonbertram",time:"Apr 19, 2026 4:36 pm"},
+  {name:"ryanttttle",time:"Apr 19, 2026 2:22 pm"},
+  {name:"tropicsnowjpr",time:"Apr 19, 2026 12:57 pm"},
+  {name:"oleksandr.besan",time:"Apr 19, 2026 12:13 pm"},
+  {name:"s_h_arva",time:"Apr 19, 2026 11:04 am"},
+  {name:"kaleta_mikey",time:"Apr 19, 2026 8:20 am"},
+  {name:"_pays0n_",time:"Apr 19, 2026 6:53 am"},
+  {name:"lukas_frantisak",time:"Apr 18, 2026 11:24 pm"},
+  {name:"marathon_running_sloth",time:"Apr 18, 2026 7:51 pm"},
+  {name:"red_rock_pine",time:"Apr 18, 2026 4:10 pm"},
+  {name:"63382629.exe",time:"Apr 18, 2026 10:57 am"},
+  {name:"ryjuan_andres",time:"Apr 18, 2026 10:00 am"},
+  {name:"joe_han777",time:"Apr 18, 2026 9:20 am"},
+  {name:"pharmacopeiaa",time:"Apr 18, 2026 5:38 am"},
+  {name:"happy_shoping365",time:"Apr 17, 2026 10:36 pm"},
+  {name:"hue.value.art",time:"Apr 17, 2026 5:04 pm"},
+  {name:"yaboy_dm",time:"Apr 16, 2026 8:14 pm"},
+  {name:"kai_stahl21",time:"Apr 16, 2026 6:50 pm"},
+  {name:"sididris",time:"Apr 16, 2026 8:16 am"},
+  {name:"sa.tradser",time:"Apr 16, 2026 5:16 am"},
+  {name:"rednael3",time:"Apr 15, 2026 12:13 pm"},
+  {name:"bogdanxbarbu",time:"Apr 15, 2026 1:31 am"},
+  {name:"benji_fluck",time:"Apr 14, 2026 6:01 pm"},
+  {name:"c.kamer",time:"Apr 14, 2026 5:30 pm"},
+  {name:"the.green.mason",time:"Apr 14, 2026 4:05 pm"},
+  {name:"smon.brm",time:"Apr 14, 2026 3:51 pm"},
+  {name:"why10gur",time:"Apr 14, 2026 11:36 am"},
+  {name:"nwaits",time:"Apr 14, 2026 11:27 am"},
+  {name:"vija.y272025",time:"Apr 14, 2026 8:18 am"},
+  {name:"thomas6511allen",time:"Apr 14, 2026 7:35 am"},
+  {name:"hardenedpowersystems",time:"Apr 14, 2026 6:50 am"},
+  {name:"djshamix",time:"Apr 14, 2026 4:48 am"},
+  {name:"germi.torres",time:"Apr 14, 2026 4:02 am"},
+  {name:"scott.bgco",time:"Apr 14, 2026 3:52 am"},
+  {name:"zanianduel",time:"Apr 14, 2026 3:18 am"},
+  {name:"sunbouncer",time:"Apr 14, 2026 3:12 am"},
+  {name:"gaudianello_",time:"Apr 14, 2026 2:08 am"},
+  {name:"prototype_2020",time:"Apr 14, 2026 1:50 am"},
+  {name:"glitch.ed",time:"Apr 14, 2026 1:43 am"},
+  {name:"learnacurve",time:"Apr 14, 2026 1:25 am"},
+  {name:"mr_zafkiel",time:"Apr 14, 2026 1:00 am"},
+  {name:"sulaiman_nsl_founder",time:"Apr 13, 2026 11:59 pm"},
+  {name:"pasticio23",time:"Apr 13, 2026 10:11 pm"},
+  {name:"galnadasan",time:"Apr 13, 2026 9:49 pm"},
+  {name:"dhimthi_mathai_",time:"Apr 13, 2026 9:27 pm"},
+  {name:"mohankumar84",time:"Apr 13, 2026 8:09 pm"},
+  {name:"artis.tinha",time:"Apr 13, 2026 6:32 pm"},
+  {name:"ammarfouda69",time:"Apr 13, 2026 5:59 pm"},
+  {name:"davman1908",time:"Apr 13, 2026 5:01 pm"},
+  {name:"kingdoogan",time:"Apr 13, 2026 4:29 pm"},
+  {name:"aaron.cunliffe",time:"Apr 13, 2026 3:38 pm"},
+  {name:"ngrmind6",time:"Apr 13, 2026 1:08 pm"},
+  {name:"kingmeowdy",time:"Apr 10, 2026 8:40 pm"},
+  {name:"queqero",time:"Apr 09, 2026 10:53 am"},
+  {name:"moham_l83",time:"Apr 06, 2026 11:24 am"},
+  {name:"khaled.sebbagh",time:"Apr 06, 2026 7:16 am"},
+  {name:"velakabayad",time:"Apr 05, 2026 10:31 am"},
+  {name:"aalblooki",time:"Apr 05, 2026 2:04 am"},
+  {name:"merm_vt",time:"Apr 03, 2026 6:28 pm"},
+  {name:"ms.takyon",time:"Apr 03, 2026 7:42 am"},
+  {name:"adam__nekhla",time:"Apr 03, 2026 6:48 am"},
+  {name:"zid_ziddy_zid",time:"Apr 03, 2026 6:19 am"},
+  {name:"telhadgn",time:"Apr 03, 2026 12:39 am"},
+  {name:"jdias.j",time:"Apr 02, 2026 8:20 pm"},
+  {name:"nevermind2552",time:"Apr 02, 2026 1:25 pm"},
+  {name:"abdude69",time:"Apr 02, 2026 12:04 pm"},
+  {name:"j0se_cs",time:"Apr 02, 2026 7:59 am"},
+  {name:"lo_st1911",time:"Apr 02, 2026 6:59 am"},
+  {name:"14bytes._.allocation",time:"Apr 02, 2026 5:23 am"},
+  {name:"sharermehdi",time:"Apr 02, 2026 5:21 am"},
+  {name:"littlewillie38",time:"Apr 02, 2026 4:54 am"},
+  {name:"juanes.cape",time:"Apr 02, 2026 3:00 am"},
+  {name:"g_cache_",time:"Apr 01, 2026 11:18 pm"},
+  {name:"ahmed.emad.otify",time:"Apr 01, 2026 11:00 pm"},
+  {name:"a_zz_zz_z",time:"Apr 01, 2026 9:58 pm"},
+  {name:"countdesaintgermain16",time:"Apr 01, 2026 6:03 pm"},
+  {name:"hazelband.swb",time:"Jan 31, 2026 9:26 pm"},
+  {name:"xumarcoarts",time:"Jan 27, 2026 6:25 am"},
+  {name:"blopus13",time:"Jan 27, 2026 5:23 am"},
+  {name:"uto.je",time:"Jan 26, 2026 10:08 pm"},
+  {name:"vonafont",time:"Jan 26, 2026 9:32 pm"},
+  {name:"really.rosie_rosie.real",time:"Jan 19, 2026 12:15 am"},
+  {name:"quackk81",time:"Dec 05, 2025 9:12 pm"},
+  {name:"zear881",time:"Nov 10, 2025 7:22 am"},
+  {name:"jgustitus99",time:"Oct 17, 2025 8:56 pm"},
+  {name:"alekjgorski",time:"Sep 05, 2025 9:27 am"},
+  {name:"bedisdoingwell",time:"Aug 14, 2025 7:31 pm"},
+  {name:"aaron_z07",time:"Aug 14, 2025 7:16 am"},
+  {name:"thomas.buonanno",time:"Aug 14, 2025 7:04 am"},
+  {name:"fixeddawber",time:"Jul 24, 2025 12:16 am"},
+  {name:"tracylynnbaxter",time:"Jul 21, 2025 2:26 am"},
+  {name:"emma_hogan18",time:"Jul 20, 2025 7:36 am"},
+  {name:"jorgedabher",time:"Jul 09, 2025 3:35 am"},
+  {name:"fallbacktomb",time:"Jul 08, 2025 6:52 pm"},
+  {name:"r_smith_2028",time:"Jul 08, 2025 9:03 am"},
+  {name:"official_aidan_mckee",time:"Jul 08, 2025 6:38 am"},
+  {name:"lucky_bucky_11",time:"Jul 08, 2025 4:44 am"},
+  {name:"jebodiah_beard_fahsay",time:"Jul 08, 2025 2:04 am"},
+  {name:"john_buonanno",time:"Jul 05, 2025 11:51 am"},
+  {name:"artsynailrachel",time:"Jun 30, 2025 4:34 pm"},
+  {name:"dyke_towatchoutfor",time:"Jun 13, 2025 8:27 am"},
+  {name:"elizabeth.buo",time:"Jun 10, 2025 4:29 am"},
+  {name:"gwenfossa",time:"Jun 07, 2025 2:31 am"},
+  {name:"nathanyel_raids",time:"Jun 06, 2025 10:24 pm"},
+  {name:"cativenom",time:"Jun 06, 2025 4:25 pm"},
+  {name:"ofcitzvic",time:"Jun 06, 2025 12:30 pm"},
+  {name:"rhia_mckee",time:"Jun 05, 2025 10:39 pm"},
+  {name:"davie.165",time:"Jun 05, 2025 5:47 am"},
+  {name:"simeon_r25",time:"May 30, 2025 12:50 pm"}
+];
+
+const hearts = followers.map(f => ({
+  x: Math.random() * canvas.width,
+  y: Math.random() * canvas.height,
+  vx: (Math.random() - 0.5) * 2,
+  vy: (Math.random() - 0.5) * 2,
+  r: HEART_SIZE,
+  name: f.name,
+  time: f.time,
+  stopped: false,
+  opacity: 1
+}));
+
+let mouse = {x: 0, y: 0};
+let hovered = null;
+
+canvas.onmousemove = e => { mouse.x = e.clientX; mouse.y = e.clientY; };
+
+function drawHeart(x, y, size, alpha) {
+  ctx.globalAlpha = alpha;
+  ctx.fillStyle = "red";
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+  ctx.bezierCurveTo(x - size/2, y - size/2, x - size, y + size/2, x, y + size);
+  ctx.bezierCurveTo(x + size, y + size/2, x + size/2, y - size/2, x, y);
+  ctx.fill();
+  ctx.globalAlpha = 1;
+}
+
+function rectCollision(h, rect) {
+  const cx = Math.max(rect.left, Math.min(h.x, rect.right));
+  const cy = Math.max(rect.top, Math.min(h.y, rect.bottom));
+  const dx = h.x - cx, dy = h.y - cy;
+  const dist = Math.sqrt(dx*dx + dy*dy);
+  if (dist < h.r) {
+    const overlap = h.r - dist;
+    const nx = dx / (dist || 1), ny = dy / (dist || 1);
+    h.x += nx * overlap; h.y += ny * overlap;
+    h.vx += nx * 1.5;    h.vy += ny * 1.5;
+  }
+}
+
+function update() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  hovered = null;
+
+  const sr = search.getBoundingClientRect();
+  const br = document.getElementById("go-back").getBoundingClientRect();
+  const colRect = {
+    left:   Math.min(sr.left, br.left)   - 4,
+    right:  Math.max(sr.right, br.right) + 4,
+    top:    sr.top    - 4,
+    bottom: br.bottom + 4
+  };
+
+  const sx = sr.left + sr.width / 2;
+  const sy = sr.top  + sr.height / 2;
+  const query = search.value.toLowerCase();
+
+  hearts.forEach((h, i) => {
+    const dxm = h.x - mouse.x, dym = h.y - mouse.y;
+    if (Math.sqrt(dxm*dxm + dym*dym) < h.r) hovered = h;
+
+    if (!h.stopped) {
+      h.x += h.vx; h.y += h.vy;
+      if (h.x < 0 || h.x > canvas.width)  h.vx *= -1.2;
+      if (h.y < 0 || h.y > canvas.height) h.vy *= -1.2;
+
+      if (query && h.name.includes(query)) {
+        h.vx += (sx - h.x) * 0.001;
+        h.vy += (sy - h.y) * 0.001;
+        h.opacity = 1;
+      } else if (query) {
+        h.opacity = 0.1;
+      } else {
+        h.opacity = 1;
+      }
+
+      rectCollision(h, colRect);
+
+      hearts.forEach((o, j) => {
+        if (i === j) return;
+        const dx = h.x - o.x, dy = h.y - o.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < h.r * 2) { h.vx += dx * 0.01; h.vy += dy * 0.01; }
+      });
+
+      h.vx *= 0.99; h.vy *= 0.99;
+    }
+
+    drawHeart(h.x, h.y, h.r, h.opacity);
+  });
+
+  if (hovered) {
+    hovered.stopped = true;
+
+    const cw = 200, ch = 48;
+    let cx = hovered.x + 18;
+    let cy = hovered.y - 8;
+    if (cx + cw > window.innerWidth  - 8) cx = hovered.x - cw - 18;
+    if (cy + ch > window.innerHeight - 8) cy = window.innerHeight - ch - 8;
+    if (cy < 8) cy = 8;
+
+    card.style.left = cx + "px";
+    card.style.top  = cy + "px";
+    cardName.textContent = hovered.name;
+    cardTime.textContent = hovered.time;
+    card.style.transform = "scale(1)";
+    overlay.classList.add("active");
+    drawHeart(hovered.x, hovered.y, hovered.r * 1.3, 1);
+  } else {
+    hearts.forEach(h => h.stopped = false);
+    card.style.transform = "scale(0)";
+    overlay.classList.remove("active");
+  }
+
+  requestAnimationFrame(update);
+}
+
+update();
+</script>
+</body>
+</html>
