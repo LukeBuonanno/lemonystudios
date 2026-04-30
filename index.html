@@ -87,59 +87,87 @@ body::after {
   justify-content: center;
   margin-top: 20px;
 }
-#cta-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--body);
-  font-size: clamp(13px, 1.4vw, 15px);
-  letter-spacing: .18em;
-  color: #07070a;
-  background-color: #f5a623;
-  border: 0;
-  border-radius: 0.5em;
-  font-weight: 600;
-  padding: 0.375em 1em;
-  text-decoration: none;
-  text-shadow: 0 0.0625em 0 #ffd080;
-  box-shadow:
-    inset 0 0.0625em 0 0 #ffc14d,
-    0 0.0625em 0 0 #d4891a,
-    0 0.125em 0 0 #c97e14,
-    0 0.25em 0 0 #b86e0e,
-    0 0.3125em 0 0 #a86209,
-    0 0.375em 0 0 #9a5806,
-    0 0.425em 0 0 #7a4103,
-    0 0.425em 0.5em 0 #8a4d05;
-  transition: 0.15s ease;
+.uiverse {
+  --duration: 7s;
+  --easing: linear;
+  -webkit-tap-highlight-color: transparent;
+  appearance: none;
+  position: relative;
   cursor: none;
+  border: none;
+  border-radius: 24px;
+  padding: 0;
+  margin: 0;
+  color: #f3ecd7;
+  font-family: var(--body);
+  font-weight: 600;
+  letter-spacing: .18em;
+  background: radial-gradient(circle, #1a1206, #000000 80%);
+  box-shadow: 0 0 18px rgba(255,176,0,0.35);
+  transition: transform 300ms ease, box-shadow 300ms ease;
 }
-#cta-btn:hover {
-  background-color: #ffba47;
-  box-shadow:
-    inset 0 0.0625em 0 0 #ffc14d,
-    0 0.0625em 0 0 #d4891a,
-    0 0.125em 0 0 #c97e14,
-    0 0.25em 0 0 #b86e0e,
-    0 0.3125em 0 0 #a86209,
-    0 0.375em 0 0 #9a5806,
-    0 0.425em 0 0 #7a4103,
-    0 0.425em 0.5em 0 #8a4d05,
-    0 0 18px 4px rgba(245,166,35,0.55),
-    0 0 40px 8px rgba(245,166,35,0.2);
+.uiverse::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  pointer-events: none;
+  box-shadow: inset 0 2px 10px rgba(255,208,122,0.25), inset 0 -3px 6px rgba(0,0,0,0.9);
 }
-#cta-btn:active {
-  translate: 0 0.225em;
-  box-shadow:
-    inset 0 0.03em 0 0 #ffc14d,
-    0 0.03em 0 0 #d4891a,
-    0 0.0625em 0 0 #c97e14,
-    0 0.125em 0 0 #b86e0e,
-    0 0.125em 0 0 #a86209,
-    0 0.2em 0 0 #9a5806,
-    0 0.225em 0 0 #7a4103,
-    0 0.225em 0.375em 0 #8a4d05;
+.uiverse:hover { --duration:1400ms; box-shadow:0 0 28px rgba(255,176,0,0.55); transform:translateY(-2px); }
+.uiverse:active { transform:translateY(1px) scale(0.98); }
+.uiverse .wrapper {
+  overflow: hidden;
+  border-radius: 24px;
+  padding: 11px 28px;
+  position: relative;
+  white-space: nowrap;
 }
+.uiverse .wrapper span {
+  position: relative;
+  z-index: 2;
+  color: #f3ecd7;
+  font-size: clamp(12px, 1.4vw, 15px);
+  letter-spacing: .18em;
+  pointer-events: none;
+}
+.uiverse .wrapper .circle {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  filter: blur(var(--blur, 10px));
+  transform: translate(var(--x), var(--y)) translateZ(0);
+  animation: var(--animation) var(--duration) var(--easing) infinite;
+}
+.circle-1,.circle-9,.circle-10 { background:#ffd27a; }
+.circle-3,.circle-4 { background:#ffb000; --blur:14px; }
+.circle-5,.circle-6 { background:#ff8c00; --blur:18px; }
+.circle-2,.circle-7,.circle-8,.circle-11,.circle-12 { background:rgba(255,176,0,0.6); --blur:12px; }
+.circle-1  { --x:0px;   --y:-40px; --animation:c1; }
+.circle-2  { --x:92px;  --y:8px;   --animation:c2; }
+.circle-3  { --x:-12px; --y:-12px; --animation:c3; }
+.circle-4  { --x:80px;  --y:-12px; --animation:c4; }
+.circle-5  { --x:12px;  --y:-4px;  --animation:c5; }
+.circle-6  { --x:56px;  --y:16px;  --animation:c6; }
+.circle-7  { --x:8px;   --y:28px;  --animation:c7; }
+.circle-8  { --x:28px;  --y:-4px;  --animation:c8; }
+.circle-9  { --x:20px;  --y:-12px; --animation:c9; }
+.circle-10 { --x:64px;  --y:16px;  --animation:c10;}
+.circle-11 { --x:4px;   --y:4px;   --animation:c11;}
+.circle-12 { --x:52px;  --y:4px;   --animation:c12;}
+@keyframes c1  { 33%{transform:translate(0px,16px)}   66%{transform:translate(12px,64px)}  }
+@keyframes c2  { 33%{transform:translate(80px,-10px)} 66%{transform:translate(72px,-48px)} }
+@keyframes c3  { 33%{transform:translate(20px,12px)}  66%{transform:translate(12px,4px)}   }
+@keyframes c4  { 33%{transform:translate(76px,-12px)} 66%{transform:translate(112px,-8px)} }
+@keyframes c5  { 33%{transform:translate(84px,28px)}  66%{transform:translate(40px,-32px)} }
+@keyframes c6  { 33%{transform:translate(28px,-16px)} 66%{transform:translate(76px,-56px)} }
+@keyframes c7  { 33%{transform:translate(8px,28px)}   66%{transform:translate(20px,-60px)} }
+@keyframes c8  { 33%{transform:translate(32px,-4px)}  66%{transform:translate(56px,-20px)} }
+@keyframes c9  { 33%{transform:translate(20px,-12px)} 66%{transform:translate(80px,-8px)}  }
+@keyframes c10 { 33%{transform:translate(68px,20px)}  66%{transform:translate(100px,28px)} }
+@keyframes c11 { 33%{transform:translate(4px,4px)}    66%{transform:translate(68px,20px)}  }
+@keyframes c12 { 33%{transform:translate(56px,0px)}   66%{transform:translate(60px,-32px)} }
 #cta-arrow {
   display: inline-block;
   animation: cta-bounce 1.8s ease-in-out infinite;
@@ -563,6 +591,24 @@ footer a:hover { color:var(--ink-dim); }
   <span class="box">+──+</span>
 </div>
 <div id="hero-content">
+  <div id="supporters-btn" aria-label="Supporters" onclick="window.location.href='./followers.html'" style="
+  position: fixed;
+  bottom: 2.5%;
+  left: 1.5%;
+  z-index: 999999;
+  font-family: var(--body);
+  font-size: 14px;
+  letter-spacing: .2em;
+  color: var(--ink);
+  cursor: pointer;
+  user-select: none;
+  text-align: center;
+  line-height: 1.2;
+">
+  <span style="display: block; font-size: 12px; margin: 4px 0; color: #e03030; text-shadow: 0 0 10px rgba(220,50,50,.5);">+──+</span>
+  <span style="display: block; font-size: 10px; margin: 4px 0; color: #e03030; text-shadow: 0 0 10px rgba(220,50,50,.5);">| ♥ |</span>
+  <span style="display: block; font-size: 12px; margin: 4px 0; color: #e03030; text-shadow: 0 0 10px rgba(220,50,50,.5);">+──+</span>
+</div>
   <!-- FIX 3: "Lemony" wrapped in .glow span for amber text-shadow glow -->
   <h1 class="hero-name"><span class="glow">Lemony</span><span class="dim">Studios</span></h1>
   <div class="hero-foot">
@@ -573,9 +619,18 @@ footer a:hover { color:var(--ink-dim); }
     </p>
     <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
       <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
-   <a href="#projects" id="cta-btn" style="text-decoration:none;">
- 
-  <span>Get project files</span>
+<a href="#projects" style="text-decoration:none;">
+  <button class="uiverse" onclick="window.location='#projects'">
+    <div class="wrapper">
+      <span>Get project files</span>
+      <div class="circle circle-12"></div><div class="circle circle-11"></div>
+      <div class="circle circle-10"></div><div class="circle circle-9"></div>
+      <div class="circle circle-8"></div><div class="circle circle-7"></div>
+      <div class="circle circle-6"></div><div class="circle circle-5"></div>
+      <div class="circle circle-4"></div><div class="circle circle-3"></div>
+      <div class="circle circle-2"></div><div class="circle circle-1"></div>
+    </div>
+  </button>
 </a>
       </div>
     </div>
@@ -638,9 +693,19 @@ footer a:hover { color:var(--ink-dim); }
         </div>
         <!-- RESUME BUTTON — centered below chips -->
 <div class="resume-wrap">
-  <a href="./Luke_Buonanno's_Resume.pdf" class="resume-btn" target="_blank">
-    Resume
-  </a>
+  <a href="./Luke_Buonanno's_Resume.pdf" target="_blank" style="text-decoration:none;">
+  <button class="uiverse">
+    <div class="wrapper">
+      <span>Resume</span>
+      <div class="circle circle-12"></div><div class="circle circle-11"></div>
+      <div class="circle circle-10"></div><div class="circle circle-9"></div>
+      <div class="circle circle-8"></div><div class="circle circle-7"></div>
+      <div class="circle circle-6"></div><div class="circle circle-5"></div>
+      <div class="circle circle-4"></div><div class="circle circle-3"></div>
+      <div class="circle circle-2"></div><div class="circle circle-1"></div>
+    </div>
+  </button>
+</a>
 </div>
       </div>
     </div>
