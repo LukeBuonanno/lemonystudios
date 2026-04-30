@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>Supporters — Lemony Studios</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet">
@@ -23,11 +24,14 @@
       --glass-border: rgba(245,166,35,0.25);
     }
 
+    * { box-sizing: border-box; }
+
     body {
       margin: 0;
       overflow: hidden;
       background: var(--bg);
       font-family: var(--body);
+      touch-action: none;
     }
 
     canvas {
@@ -38,11 +42,11 @@
 
     #supporters-title {
       position: fixed;
-      top: 25%;
+      top: 18%;
       left: 50%;
       transform: translateX(-50%);
       font-family: var(--display);
-      font-size: clamp(28px, 5vw, 64px);
+      font-size: clamp(22px, 7vw, 64px);
       font-weight: 400;
       color: var(--amber);
       text-shadow:
@@ -69,128 +73,133 @@
 
     .search {
       position: fixed;
-      top: 65%;
+      top: 60%;
       left: 50%;
       transform: translateX(-50%);
-      padding: 12px 18px;
-      border-radius: 20px;
+      padding: 14px 20px;
+      border-radius: 24px;
       border: 1px solid var(--glass-border);
       outline: none;
       font-size: 16px;
       font-family: var(--body);
-      width: 260px;
+      width: min(300px, 80vw);
       z-index: 3;
       background: rgba(13,13,18,0.9);
       color: var(--hi);
+      -webkit-appearance: none;
+      min-height: 48px;
     }
     .search::placeholder { color: var(--ink-dim); }
-.uiverse {
-  --duration: 7s;
-  --easing: linear;
-  -webkit-tap-highlight-color: transparent;
-  appearance: none;
-  position: relative;
-  cursor: none;
-  border: none;
-  border-radius: 24px;
-  padding: 0;
-  margin: 0;
-  color: #f3ecd7;
-  font-family: var(--body);
-  font-weight: 600;
-  letter-spacing: .18em;
-  background: radial-gradient(circle, #1a1206, #000000 80%);
-  box-shadow: 0 0 18px rgba(255,176,0,0.35);
-  transition: transform 300ms ease, box-shadow 300ms ease;
-}
-.uiverse::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 24px;
-  pointer-events: none;
-  box-shadow: inset 0 2px 10px rgba(255,208,122,0.25), inset 0 -3px 6px rgba(0,0,0,0.9);
-}
-.uiverse:hover { --duration:1400ms; box-shadow:0 0 28px rgba(255,176,0,0.55); transform:translateY(-2px); }
-.uiverse:active { transform:translateY(1px) scale(0.98); }
-.uiverse .wrapper {
-  overflow: hidden;
-  border-radius: 24px;
-  padding: 11px 28px;
-  position: relative;
-  white-space: nowrap;
-}
-.uiverse .wrapper span {
-  position: relative;
-  z-index: 2;
-  color: #f3ecd7;
-  font-size: clamp(12px, 1.4vw, 15px);
-  letter-spacing: .18em;
-  pointer-events: none;
-}
-.uiverse .wrapper .circle {
-  position: absolute;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  filter: blur(var(--blur, 10px));
-  transform: translate(var(--x), var(--y)) translateZ(0);
-  animation: var(--animation) var(--duration) var(--easing) infinite;
-}
-.circle-1,.circle-9,.circle-10 { background:#ffd27a; }
-.circle-3,.circle-4 { background:#ffb000; --blur:14px; }
-.circle-5,.circle-6 { background:#ff8c00; --blur:18px; }
-.circle-2,.circle-7,.circle-8,.circle-11,.circle-12 { background:rgba(255,176,0,0.6); --blur:12px; }
-.circle-1  { --x:0px;   --y:-40px; --animation:c1; }
-.circle-2  { --x:92px;  --y:8px;   --animation:c2; }
-.circle-3  { --x:-12px; --y:-12px; --animation:c3; }
-.circle-4  { --x:80px;  --y:-12px; --animation:c4; }
-.circle-5  { --x:12px;  --y:-4px;  --animation:c5; }
-.circle-6  { --x:56px;  --y:16px;  --animation:c6; }
-.circle-7  { --x:8px;   --y:28px;  --animation:c7; }
-.circle-8  { --x:28px;  --y:-4px;  --animation:c8; }
-.circle-9  { --x:20px;  --y:-12px; --animation:c9; }
-.circle-10 { --x:64px;  --y:16px;  --animation:c10;}
-.circle-11 { --x:4px;   --y:4px;   --animation:c11;}
-.circle-12 { --x:52px;  --y:4px;   --animation:c12;}
-@keyframes c1  { 33%{transform:translate(0px,16px)}   66%{transform:translate(12px,64px)}  }
-@keyframes c2  { 33%{transform:translate(80px,-10px)} 66%{transform:translate(72px,-48px)} }
-@keyframes c3  { 33%{transform:translate(20px,12px)}  66%{transform:translate(12px,4px)}   }
-@keyframes c4  { 33%{transform:translate(76px,-12px)} 66%{transform:translate(112px,-8px)} }
-@keyframes c5  { 33%{transform:translate(84px,28px)}  66%{transform:translate(40px,-32px)} }
-@keyframes c6  { 33%{transform:translate(28px,-16px)} 66%{transform:translate(76px,-56px)} }
-@keyframes c7  { 33%{transform:translate(8px,28px)}   66%{transform:translate(20px,-60px)} }
-@keyframes c8  { 33%{transform:translate(32px,-4px)}  66%{transform:translate(56px,-20px)} }
-@keyframes c9  { 33%{transform:translate(20px,-12px)} 66%{transform:translate(80px,-8px)}  }
-@keyframes c10 { 33%{transform:translate(68px,20px)}  66%{transform:translate(100px,28px)} }
-@keyframes c11 { 33%{transform:translate(4px,4px)}    66%{transform:translate(68px,20px)}  }
-@keyframes c12 { 33%{transform:translate(56px,0px)}   66%{transform:translate(60px,-32px)} }
+
+    .uiverse {
+      --duration: 7s;
+      --easing: linear;
+      -webkit-tap-highlight-color: transparent;
+      appearance: none;
+      position: relative;
+      cursor: pointer;
+      border: none;
+      border-radius: 24px;
+      padding: 0;
+      margin: 0;
+      color: #f3ecd7;
+      font-family: var(--body);
+      font-weight: 600;
+      letter-spacing: .18em;
+      background: radial-gradient(circle, #1a1206, #000000 80%);
+      box-shadow: 0 0 18px rgba(255,176,0,0.35);
+      transition: transform 300ms ease, box-shadow 300ms ease;
+    }
+    .uiverse::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      pointer-events: none;
+      box-shadow: inset 0 2px 10px rgba(255,208,122,0.25), inset 0 -3px 6px rgba(0,0,0,0.9);
+    }
+    .uiverse:hover { --duration:1400ms; box-shadow:0 0 28px rgba(255,176,0,0.55); transform:translateY(-2px); }
+    .uiverse:active { transform:translateY(1px) scale(0.98); }
+    .uiverse .wrapper {
+      overflow: hidden;
+      border-radius: 24px;
+      padding: 14px 28px;
+      position: relative;
+      white-space: nowrap;
+    }
+    .uiverse .wrapper span {
+      position: relative;
+      z-index: 2;
+      color: #f3ecd7;
+      font-size: clamp(13px, 3.5vw, 15px);
+      letter-spacing: .18em;
+      pointer-events: none;
+    }
+    .uiverse .wrapper .circle {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      filter: blur(var(--blur, 10px));
+      transform: translate(var(--x), var(--y)) translateZ(0);
+      animation: var(--animation) var(--duration) var(--easing) infinite;
+    }
+    .circle-1,.circle-9,.circle-10 { background:#ffd27a; }
+    .circle-3,.circle-4 { background:#ffb000; --blur:14px; }
+    .circle-5,.circle-6 { background:#ff8c00; --blur:18px; }
+    .circle-2,.circle-7,.circle-8,.circle-11,.circle-12 { background:rgba(255,176,0,0.6); --blur:12px; }
+    .circle-1  { --x:0px;   --y:-40px; --animation:c1; }
+    .circle-2  { --x:92px;  --y:8px;   --animation:c2; }
+    .circle-3  { --x:-12px; --y:-12px; --animation:c3; }
+    .circle-4  { --x:80px;  --y:-12px; --animation:c4; }
+    .circle-5  { --x:12px;  --y:-4px;  --animation:c5; }
+    .circle-6  { --x:56px;  --y:16px;  --animation:c6; }
+    .circle-7  { --x:8px;   --y:28px;  --animation:c7; }
+    .circle-8  { --x:28px;  --y:-4px;  --animation:c8; }
+    .circle-9  { --x:20px;  --y:-12px; --animation:c9; }
+    .circle-10 { --x:64px;  --y:16px;  --animation:c10;}
+    .circle-11 { --x:4px;   --y:4px;   --animation:c11;}
+    .circle-12 { --x:52px;  --y:4px;   --animation:c12;}
+    @keyframes c1  { 33%{transform:translate(0px,16px)}   66%{transform:translate(12px,64px)}  }
+    @keyframes c2  { 33%{transform:translate(80px,-10px)} 66%{transform:translate(72px,-48px)} }
+    @keyframes c3  { 33%{transform:translate(20px,12px)}  66%{transform:translate(12px,4px)}   }
+    @keyframes c4  { 33%{transform:translate(76px,-12px)} 66%{transform:translate(112px,-8px)} }
+    @keyframes c5  { 33%{transform:translate(84px,28px)}  66%{transform:translate(40px,-32px)} }
+    @keyframes c6  { 33%{transform:translate(28px,-16px)} 66%{transform:translate(76px,-56px)} }
+    @keyframes c7  { 33%{transform:translate(8px,28px)}   66%{transform:translate(20px,-60px)} }
+    @keyframes c8  { 33%{transform:translate(32px,-4px)}  66%{transform:translate(56px,-20px)} }
+    @keyframes c9  { 33%{transform:translate(20px,-12px)} 66%{transform:translate(80px,-8px)}  }
+    @keyframes c10 { 33%{transform:translate(68px,20px)}  66%{transform:translate(100px,28px)} }
+    @keyframes c11 { 33%{transform:translate(4px,4px)}    66%{transform:translate(68px,20px)}  }
+    @keyframes c12 { 33%{transform:translate(56px,0px)}   66%{transform:translate(60px,-32px)} }
 
     .card {
       position: fixed;
-      padding: 8px 12px;
-      background: rgba(13,13,18,0.95);
+      padding: 10px 14px;
+      background: rgba(13,13,18,0.97);
       border: 1px solid var(--glass-border);
       border-radius: 12px;
       pointer-events: none;
       transform: scale(0);
       transition: transform 150ms ease;
       z-index: 4;
+      max-width: 220px;
     }
-#go-back {
-  position: fixed;
-  top: calc(65% + 60px);
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 3;
-  text-decoration: none;
-}
+    #go-back {
+      position: fixed;
+      top: calc(60% + 68px);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      text-decoration: none;
+    }
     .card-name {
       font-family: var(--body);
       font-size: 14px;
       font-weight: 700;
       color: var(--hi);
       white-space: nowrap;
+      display: block;
     }
     .card-time {
       font-family: var(--body);
@@ -198,6 +207,8 @@
       font-weight: 400;
       color: var(--ink-dim);
       white-space: nowrap;
+      display: block;
+      margin-top: 2px;
     }
   </style>
 </head>
@@ -206,11 +217,11 @@
 <div id="supporters-title">Supporters</div>
 <canvas id="c"></canvas>
 <div class="overlay" id="overlay"></div>
-<input class="search" id="search" placeholder="Search...">
+<input class="search" id="search" placeholder="Search..." autocomplete="off" autocorrect="off" autocapitalize="off">
 <a href="https://lemonystudios.onthewifi.com" id="go-back">
-  <button class="uiverse" onclick="window.location='#projects'">
+  <button class="uiverse">
     <div class="wrapper">
-      <span>Get project files</span>
+      <span>Go Back</span>
       <div class="circle circle-12"></div><div class="circle circle-11"></div>
       <div class="circle circle-10"></div><div class="circle circle-9"></div>
       <div class="circle circle-8"></div><div class="circle circle-7"></div>
@@ -235,11 +246,15 @@ const card = document.getElementById("card");
 const cardName = document.getElementById("cardName");
 const cardTime = document.getElementById("cardTime");
 
-canvas.width = innerWidth;
-canvas.height = innerHeight;
-window.addEventListener('resize', () => { canvas.width = innerWidth; canvas.height = innerHeight; });
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
 
-const HEART_SIZE = 11.5;
+const isMobile = () => window.innerWidth < 768;
+const HEART_SIZE = () => isMobile() ? Math.max(16, window.innerWidth * 0.045) : 11.5;
 
 const followers = [
   {name:"symmtrys",time:"Apr 29, 2026 9:22 am"},
@@ -410,22 +425,61 @@ const followers = [
   {name:"simeon_r25",time:"May 30, 2025 12:50 pm"}
 ];
 
+let heartSize = HEART_SIZE();
 const hearts = followers.map(f => ({
   x: Math.random() * canvas.width,
   y: Math.random() * canvas.height,
   vx: (Math.random() - 0.5) * 2,
   vy: (Math.random() - 0.5) * 2,
-  r: HEART_SIZE,
+  r: heartSize,
   name: f.name,
   time: f.time,
   stopped: false,
   opacity: 1
 }));
 
-let mouse = {x: 0, y: 0};
-let hovered = null;
+window.addEventListener('resize', () => {
+  heartSize = HEART_SIZE();
+  hearts.forEach(h => { h.r = heartSize; });
+});
 
-canvas.onmousemove = e => { mouse.x = e.clientX; mouse.y = e.clientY; };
+let mouse = {x: -9999, y: -9999};
+let hovered = null;
+let touchActive = false;
+
+canvas.addEventListener('mousemove', e => {
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+});
+
+canvas.addEventListener('mouseleave', () => {
+  mouse.x = -9999;
+  mouse.y = -9999;
+});
+
+canvas.addEventListener('touchstart', e => {
+  e.preventDefault();
+  touchActive = true;
+  const t = e.touches[0];
+  mouse.x = t.clientX;
+  mouse.y = t.clientY;
+}, { passive: false });
+
+canvas.addEventListener('touchmove', e => {
+  e.preventDefault();
+  const t = e.touches[0];
+  mouse.x = t.clientX;
+  mouse.y = t.clientY;
+}, { passive: false });
+
+canvas.addEventListener('touchend', e => {
+  e.preventDefault();
+  setTimeout(() => {
+    touchActive = false;
+    mouse.x = -9999;
+    mouse.y = -9999;
+  }, 800);
+}, { passive: false });
 
 function drawHeart(x, y, size, alpha) {
   ctx.globalAlpha = alpha;
@@ -443,37 +497,49 @@ function rectCollision(h, rect) {
   const cy = Math.max(rect.top, Math.min(h.y, rect.bottom));
   const dx = h.x - cx, dy = h.y - cy;
   const dist = Math.sqrt(dx*dx + dy*dy);
-  
   if (dist < h.r) {
     const overlap = h.r - dist;
     const nx = dx / (dist || 1), ny = dy / (dist || 1);
     h.x += nx * overlap; h.y += ny * overlap;
     h.vx += nx * 1.5;    h.vy += ny * 1.5;
-    
   }
+}
+
+function showCard(h) {
+  const margin = 8;
+  const cw = card.offsetWidth || 180;
+  const ch = card.offsetHeight || 52;
+  let cx = h.x + h.r + 10;
+  let cy = h.y - h.r;
+  if (cx + cw > window.innerWidth - margin)  cx = h.x - cw - h.r - 10;
+  if (cx < margin) cx = margin;
+  if (cy + ch > window.innerHeight - margin) cy = window.innerHeight - ch - margin;
+  if (cy < margin) cy = margin;
+  card.style.left = cx + "px";
+  card.style.top  = cy + "px";
+  cardName.textContent = h.name;
+  cardTime.textContent = h.time;
+  card.style.transform = "scale(1)";
 }
 
 function update() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   hovered = null;
 
-const sr = search.getBoundingClientRect();
-const br = document.getElementById("go-back").getBoundingClientRect();
-const tr = document.getElementById("supporters-title").getBoundingClientRect();
-
-const collisionRects = [
-  sr,
-  br,
-  tr
-];
+  const sr = search.getBoundingClientRect();
+  const br = document.getElementById("go-back").getBoundingClientRect();
+  const tr = document.getElementById("supporters-title").getBoundingClientRect();
+  const collisionRects = [sr, br, tr];
 
   const sx = sr.left + sr.width / 2;
   const sy = sr.top  + sr.height / 2;
   const query = search.value.toLowerCase();
 
+  const hitRadius = isMobile() ? heartSize * 2 : heartSize;
+
   hearts.forEach((h, i) => {
     const dxm = h.x - mouse.x, dym = h.y - mouse.y;
-    if (Math.sqrt(dxm*dxm + dym*dym) < h.r) hovered = h;
+    if (Math.sqrt(dxm*dxm + dym*dym) < hitRadius) hovered = h;
 
     if (!h.stopped) {
       h.x += h.vx; h.y += h.vy;
@@ -490,7 +556,7 @@ const collisionRects = [
         h.opacity = 1;
       }
 
-    collisionRects.forEach(rect => rectCollision(h, rect));
+      collisionRects.forEach(rect => rectCollision(h, rect));
 
       hearts.forEach((o, j) => {
         if (i === j) return;
@@ -507,19 +573,7 @@ const collisionRects = [
 
   if (hovered) {
     hovered.stopped = true;
-
-    const cw = 200, ch = 48;
-    let cx = hovered.x + 18;
-    let cy = hovered.y - 8;
-    if (cx + cw > window.innerWidth  - 8) cx = hovered.x - cw - 18;
-    if (cy + ch > window.innerHeight - 8) cy = window.innerHeight - ch - 8;
-    if (cy < 8) cy = 8;
-
-    card.style.left = cx + "px";
-    card.style.top  = cy + "px";
-    cardName.textContent = hovered.name;
-    cardTime.textContent = hovered.time;
-    card.style.transform = "scale(1)";
+    showCard(hovered);
     overlay.classList.add("active");
     drawHeart(hovered.x, hovered.y, hovered.r * 1.3, 1);
   } else {
