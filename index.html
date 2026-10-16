@@ -745,29 +745,75 @@ footer a:hover { color:var(--ink-dim); }
 /* ════════════════════════════════════════════════════════════
    CURSOR
 ════════════════════════════════════════════════════════════ */
-(function(){
-  const cur=document.getElementById('cur'),fol=document.getElementById('fol'),fc=document.getElementById('fol-circle');
-  if(!cur)return;
-  let mx=0,my=0,fx=0,fy=0,pfx=-1,pfy=-1;
-  document.addEventListener('mousemove',e=>{
-    mx=e.clientX;my=e.clientY;
-    cur.style.transform='translate3d('+mx+'px,'+my+'px,0)';
-  });
-  (function a(){
-    fx+=(mx-fx)*.12;fy+=(my-fy)*.12;
-    if(Math.abs(fx-pfx)>.1||Math.abs(fy-pfy)>.1){
-      fol.style.transform='translate3d('+fx+'px,'+fy+'px,0)';
-      pfx=fx;pfy=fy;
+
+(function () {
+  const cur = document.getElementById('cur');
+  const fol = document.getElementById('fol');
+  const fc = document.getElementById('fol-circle');
+
+  if (!cur || !fol || !fc ||
+      matchMedia('(hover: none)').matches ||
+      matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return;
+  }
+
+  let mx = 0, my = 0, fx = 0, fy = 0;
+  let raf = 0;
+  let initialized = false;
+
+  function animate() {
+    const dx = mx - fx;
+    const dy = my - fy;
+
+    fx += dx * 0.12;
+    fy += dy * 0.12;
+
+    cur.style.transform =
+      `translate3d(${mx}px,${my}px,0)`;
+
+    fol.style.transform =
+      `translate3d(${fx}px,${fy}px,0)`;
+
+    if (Math.abs(dx) > 0.15 || Math.abs(dy) > 0.15) {
+      raf = requestAnimationFrame(animate);
+    } else {
+      fx = mx;
+      fy = my;
+      fol.style.transform =
+        `translate3d(${fx}px,${fy}px,0)`;
+      raf = 0;
     }
-    requestAnimationFrame(a);
-  })();
-  const bind=el=>{
-    el.addEventListener('mouseenter',()=>fc.classList.add('scaled'));
-    el.addEventListener('mouseleave',()=>fc.classList.remove('scaled'));
+  }
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX;
+    my = e.clientY;
+
+    if (!initialized) {
+      fx = mx;
+      fy = my;
+      initialized = true;
+      fol.style.transform =
+        `translate3d(${fx}px,${fy}px,0)`;
+    }
+
+    if (!raf) raf = requestAnimationFrame(animate);
+  }, { passive: true });
+
+  const bind = el => {
+    el.addEventListener('mouseenter',
+      () => fc.classList.add('scaled'));
+    el.addEventListener('mouseleave',
+      () => fc.classList.remove('scaled'));
   };
-  document.querySelectorAll('a,button,[role=button]').forEach(bind);
-  window._curBind=bind;
+
+  document.querySelectorAll(
+    'a,button,[role=button]'
+  ).forEach(bind);
+
+  window._curBind = bind;
 })();
+
 
 /* THEME */
 (function(){
